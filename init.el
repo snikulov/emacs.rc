@@ -16,3 +16,9 @@
 	      (gtags-mode 1)
 ))
 
+;;;
+;;; set color theme
+;;;
+(require 'color-theme)
+(color-theme-initialize)
+(color-theme-euphoria)
