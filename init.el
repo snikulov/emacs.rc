@@ -18,6 +18,15 @@
 (setq c-mode-hook '(lambda () (gtags-mode 1)))
 (setq c++-mode-hook '(lambda () (gtags-mode 1)))
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; GTAGS-Settings 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(require 'gtags)
+(define-key gtags-mode-map "\M-/" 'gtags-find-rtag)
+(define-key gtags-mode-map [f7] 'gtags-find-symbol)
+(define-key gtags-mode-map "\M-f" 'gtags-find-file)
+(define-key gtags-mode-map "\M-r" 'gtags-pop-stack)
+
 ;;;
 ;;; set color theme
 ;;;
