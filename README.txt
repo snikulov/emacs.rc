@@ -1,4 +1,5 @@
 Short how-to:
 
-1. clone this repo to ~/emacs.rc
-2. ln -s ~/emacs.rc/.emacs ~/.emacs
+cd ~/.emacs.d/
+clone this repo to .
+now init.el should be picked up from ~/.emacs.d on loading emacs
