@@ -9,7 +9,7 @@
 (add-to-list 'load-path "~/emacs.rc/el-get/")
 (require 'el-get)
 (setq el-get-recipe-path  '("~/emacs.rc/el-get/recipes/"))
-(setq el-get-sources '(color-theme cmake-mode magit psvn
+(setq el-get-sources '(delsel color-theme cmake-mode magit psvn
     ergoemacs-keybindings ahg yasnippet auto-complete remember))
 (el-get 'sync)
 
@@ -25,6 +25,14 @@
 (setq c-mode-hook '(lambda () (global-linum-mode 1)))
 (setq c++-mode-hook '(lambda () (global-linum-mode 1)))
 
+;; nuke trailing whitespaces
+(add-hook 'before-save-hook 'delete-trailing-whitespace)
+
+;; additional ws options
+(setq-default show-trailing-whitespace t)
+(setq-default indicate-empty-lines t)
+
+;; default coding style
 (setq c-default-style "bsd"
       c-basic-offset 4
       indent-tabs-mode nil)
