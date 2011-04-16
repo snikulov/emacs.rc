@@ -10,7 +10,7 @@
 (require 'el-get)
 (setq el-get-recipe-path  '("~/emacs.rc/el-get/recipes/"))
 (setq el-get-sources '(delsel color-theme cmake-mode magit psvn
-    ergoemacs-keybindings ahg yasnippet auto-complete remember))
+    ergoemacs-keybindings ahg yasnippet auto-complete))
 (el-get 'sync)
 
 (ergoemacs-mode 1)
@@ -24,6 +24,13 @@
 (setq c++-mode-hook '(lambda () (gtags-mode 1)))
 (setq c-mode-hook '(lambda () (global-linum-mode 1)))
 (setq c++-mode-hook '(lambda () (global-linum-mode 1)))
+
+;; cmake mode hook
+(require 'cmake-mode)
+(setq auto-mode-alist
+	(append '(("CMakeLists\\.txt\\'" . cmake-mode)
+		("\\.cmake\\'" . cmake-mode))
+		auto-mode-alist))
 
 ;; nuke trailing whitespaces
 (add-hook 'before-save-hook 'delete-trailing-whitespace)
