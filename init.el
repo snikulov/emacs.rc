@@ -1,3 +1,5 @@
+;; common lisp enable for cedet
+(require 'cl)
 ;; el-get
 (setenv "ERGOEMACS_KEYBOARD_LAYOUT" "dv")
 
