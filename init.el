@@ -17,15 +17,8 @@
 
 (ergoemacs-mode 1)
 
+(load "~/.emacs.d/conf/conf-gtags.el")
 
-;; gtags on Fedora
-(setq load-path (cons "/usr/share/gtags" load-path))
-(autoload 'gtags-mode "gtags" "" t)
-
-(setq c-mode-hook '(lambda () (gtags-mode 1)))
-(setq c++-mode-hook '(lambda () (gtags-mode 1)))
-(setq c-mode-hook '(lambda () (global-linum-mode 1)))
-(setq c++-mode-hook '(lambda () (global-linum-mode 1)))
 
 ;; cmake mode hook
 (require 'cmake-mode)
@@ -57,11 +50,13 @@
 (set-face-attribute 'default nil :height 142)
 (global-set-key (kbd "<C-M-down>") 'text-scale-decrease)
 (global-set-key (kbd "<C-M-up>") 'text-scale-increase)
+(global-set-key (kbd "<f5>") 'goto-line)
 
 (when (equal system-type 'gnu/linux)
-  (set-face-font 'default nil :family "Droid Sans Mono")
+;;  (set-face-font 'default nil :family "Droid Sans Mono")
 )
 
 
-
+;; cedet
+(load "~/.emacs.d/conf/conf-cedet.el")
 
