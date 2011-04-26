@@ -58,5 +58,5 @@
 
 
 ;; cedet
-(load "~/.emacs.d/conf/conf-cedet.el")
+;;(load "~/.emacs.d/conf/conf-cedet.el")
 
