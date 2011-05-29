@@ -11,13 +11,18 @@
 (add-to-list 'load-path "~/emacs.rc/el-get/")
 (require 'el-get)
 (setq el-get-recipe-path  '("~/emacs.rc/el-get/recipes/"))
-(setq el-get-sources '(color-theme cmake-mode magit ergoemacs-keybindings yasnippet auto-complete))
+(setq el-get-sources '(color-theme cmake-mode magit
+	 ergoemacs-keybindings yasnippet auto-complete))
 (el-get 'sync)
 
 (ergoemacs-mode 1)
 
 (load "~/.emacs.d/conf/conf-gtags.el")
-
+;; open keyboard shortcut image with F8 key
+(global-set-key (kbd "<f8>")
+		(lambda ()
+		  (interactive)
+		  (find-file "~/.emacs.d/ergonomic_emacs_layout_dvorak_5.3.4.png")))
 
 ;; cmake mode hook
 (require 'cmake-mode)
