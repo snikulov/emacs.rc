@@ -5,7 +5,7 @@
 (global-set-key (kbd "<f8>")
 		(lambda ()
 		  (interactive)
-		  (find-file "~/.emacs.d/ergonomic_emacs_layout_dvorak_5.3.4.png")))
+		  (find-file "~/.emacs.d/ergoemacs_dv.png")))
 
 ;; set custom keybindings
 (global-set-key (kbd "<C-M-down>") 'text-scale-decrease)
