@@ -11,8 +11,7 @@
 (add-to-list 'load-path "~/emacs.rc/el-get/")
 (require 'el-get)
 (setq el-get-recipe-path  '("~/emacs.rc/el-get/recipes/"))
-(setq el-get-sources '(color-theme cmake-mode magit psvn
-    ergoemacs-keybindings ahg yasnippet auto-complete))
+(setq el-get-sources '(color-theme cmake-mode magit ergoemacs-keybindings yasnippet auto-complete))
 (el-get 'sync)
 
 (ergoemacs-mode 1)
