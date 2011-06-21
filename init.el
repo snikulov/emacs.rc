@@ -18,9 +18,9 @@
 (el-get 'sync)
 
 (load "~/.emacs.d/conf/conf-keyboard.el")
-(load "~/.emacs.d/conf/emacs-rc-common-hooks.el")
-(load "~/.emacs.d/conf/emacs-rc-auto-insert.el")
-(load "~/.emacs.d/conf/emacs-rc-ccmode.el")
+;;(load "~/.emacs.d/conf/emacs-rc-common-hooks.el")
+;;(load "~/.emacs.d/conf/emacs-rc-auto-insert.el")
+;;(load "~/.emacs.d/conf/emacs-rc-ccmode.el")
 (load "~/.emacs.d/conf/conf-gtags.el")
 
 ;; cmake mode hook
@@ -38,13 +38,13 @@
 (setq-default indicate-empty-lines t)
 
 ;; default coding style
-;;(setq c-default-style "bsd"
-;;      c-basic-offset 4
-;;      indent-tabs-mode nil)
+(setq c-default-style "bsd"
+      c-basic-offset 4
+      indent-tabs-mode nil)
 
-;;(setq c++-default-style "bsd"
-;;      c++-basic-offset 4
-;;      indent-tabs-mode nil)
+(setq c++-default-style "bsd"
+      c++-basic-offset 4
+      indent-tabs-mode nil)
 
 (require 'color-theme)
 (setq color-theme-is-global t)
