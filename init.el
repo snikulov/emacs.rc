@@ -15,7 +15,7 @@
 (setq el-get-recipe-path  '("~/emacs.rc/el-get/recipes/"))
 (setq el-get-sources '(color-theme cmake-mode magit
 	 ergoemacs-keybindings yasnippet auto-complete))
-(el-get 'sync)
+(el-get)
 
 (load "~/.emacs.d/conf/conf-keyboard.el")
 ;;(load "~/.emacs.d/conf/emacs-rc-common-hooks.el")
