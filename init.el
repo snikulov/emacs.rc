@@ -11,13 +11,19 @@
 
 ;; el-get
 (add-to-list 'load-path "~/.emacs.d/el-get/el-get")
-(unless (require 'el-get nil t)
-  (load "~/.emacs.d/el-get-install.el"))
 
+(unless (require 'el-get nil t)
+  (url-retrieve
+   "https://github.com/dimitri/el-get/raw/master/el-get-install.el"
+   (lambda (s)
+     (end-of-buffer)
+     (eval-print-last-sexp))))
 (require 'el-get)
-(setq el-get-sources '(color-theme cmake-mode magit
-	 ergoemacs-keybindings yasnippet auto-complete))
-(el-get)
+
+(setq my-packages
+       '(ergoemacs-keybindings cmake-mode magit yasnippet auto-complete color-theme cmake-mode))
+
+(el-get 'sync my-packages)
 
 (load "~/.emacs.d/conf/conf-keyboard.el")
 ;;(load "~/.emacs.d/conf/emacs-rc-common-hooks.el")
