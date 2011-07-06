@@ -21,7 +21,7 @@
 (require 'el-get)
 
 (setq my-packages
-       '(ergoemacs-keybindings cmake-mode magit yasnippet auto-complete color-theme cmake-mode))
+       '(ergoemacs-keybindings cmake-mode magit yasnippet auto-complete cmake-mode color-theme))
 
 (el-get 'sync my-packages)
 

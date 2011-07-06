@@ -4,7 +4,7 @@
 ;; Subject to change, because I'm not sure about keybindings
 ;; and global includes
 
-;;(load-file "~/emacs.rc/cedet/common/cedet.el")
+(load-file "cedet.el")
 ;;(global-ede-mode 'nil) ;; do not use project manager so far
 (semantic-load-enable-excessive-code-helpers)
 
