@@ -63,4 +63,5 @@
 )
 ;; cedet
 ;;(load "~/.emacs.d/conf/conf-cedet.el")
-
+(require 'yasnippet)
+(yas/reload-all)
