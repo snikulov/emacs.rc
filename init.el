@@ -1,3 +1,5 @@
+;(load "~/.emacs.d/el-get-install.el")
+
 ;; common lisp enable for cedet
 (require 'cl)
 
@@ -15,7 +17,7 @@
 (require 'el-get)
 
 (setq my-packages
-       '(ergoemacs-keybindings cmake-mode magit yasnippet auto-complete cmake-mode color-theme))
+       '(ergoemacs-keybindings yasnippet auto-complete))
 
 (el-get 'sync my-packages)
 
@@ -49,6 +51,7 @@
       indent-tabs-mode nil)
 
 (require 'color-theme)
+(color-theme-initialize)
 (setq color-theme-is-global t)
 (color-theme-euphoria)
 
