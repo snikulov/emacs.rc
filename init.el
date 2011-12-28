@@ -40,6 +40,7 @@
 ;; additional ws options
 (setq-default show-trailing-whitespace t)
 (setq-default indicate-empty-lines t)
+(setq-default indent-tabs-mode nil)
 
 ;; default coding style
 (setq c-default-style "bsd"
