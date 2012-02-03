@@ -1,4 +1,4 @@
-;(load "~/.emacs.d/el-get-install.el")
+;;(load "~/.emacs.d/el-get-install.el")
 
 ;; common lisp enable for cedet
 (require 'cl)
@@ -17,7 +17,7 @@
 (require 'el-get)
 
 (setq my-packages
-       '(ergoemacs-keybindings yasnippet auto-complete))
+       '(ergoemacs-keybindings auto-complete color-theme cmake-mode))
 
 (el-get 'sync my-packages)
 
@@ -59,7 +59,11 @@
 (when (equal system-type 'gnu/linux)
   (set-face-attribute 'default nil :family "Droid Sans Mono" :height 142)
 )
+(when (equal system-type 'windows-nt)
+  (set-face-attribute 'default nil :family "Consolas" :height 143)
+)
+
 ;; cedet
 ;;(load "~/.emacs.d/conf/conf-cedet.el")
-(require 'yasnippet)
-(yas/reload-all)
+;;(require 'yasnippet)
+;;(yas/reload-all)
