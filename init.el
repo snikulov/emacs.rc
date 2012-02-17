@@ -43,7 +43,7 @@
 
 (load "~/.emacs.d/conf/conf-keyboard.el")
 ;;(load "~/.emacs.d/conf/emacs-rc-common-hooks.el")
-;;(load "~/.emacs.d/conf/emacs-rc-auto-insert.el")
+(load "~/.emacs.d/conf/emacs-rc-auto-insert.el")
 ;;(load "~/.emacs.d/conf/emacs-rc-ccmode.el")
 (load "~/.emacs.d/conf/conf-gtags.el")
 

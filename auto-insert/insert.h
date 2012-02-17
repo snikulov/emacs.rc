@@ -1,4 +1,4 @@
-/* -*- mode: c++; tab-width: 4; c-basic-offset:4; indent-tabs-mode: t -*- */
+/* -*- mode: c++; tab-width: 4; c-basic-offset:4; indent-tabs-mode: nil -*- */
 /*  @doc
  *  @module <(>>FILE<<)> | <Brief description>
  *
@@ -11,5 +11,13 @@
 
 #ifndef ###
 #define ###
+
+#ifdef __cplusplus
+        extern "C" {
+#endif
+
+#ifdef __cplusplus
+        }
+#endif
 
 #endif /* ### */
