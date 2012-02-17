@@ -29,6 +29,9 @@
 
 (require 'el-get)
 
+(setq ac-dwim t)
+(setq yas/snippet-dirs '"~/.emacs.d/snippets")
+
 (when (equal platform 'linux)
   (setq my-packages
        '(ergoemacs-keybindings yasnippet auto-complete org-mode))
@@ -85,6 +88,7 @@
 
 (when (equal platform 'linux)
   (require 'yasnippet)
+  (yas/initialize)
   (yas/load-directory "~/.emacs.d/snippets")
   (yas/reload-all)
 )
