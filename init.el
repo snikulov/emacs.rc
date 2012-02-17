@@ -85,6 +85,7 @@
 
 (when (equal platform 'linux)
   (require 'yasnippet)
+  (yas/load-directory "~/.emacs.d/snippets")
   (yas/reload-all)
 )
 
