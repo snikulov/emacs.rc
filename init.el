@@ -1,10 +1,23 @@
-;(load "~/.emacs.d/el-get-install.el")
+;;(load "~/.emacs.d/el-get-install.el")
 
 ;; common lisp enable for cedet
 (require 'cl)
 
 ;; set environment for ErgoEmacs - Dvorak keyboard layout
 (setenv "ERGOEMACS_KEYBOARD_LAYOUT" "dv")
+
+;; http://stackoverflow.com/questions/1817257/how-to-determine-operating-system-in-elisp
+;; ;; it's better to store platform as symbol, not as several symbols
+(setq windows nil mac nil linux nil)
+(cond
+  ((eq system-type 'windows-nt) (setq windows t))
+  ((eq system-type 'darwin) (setq mac t))
+  (t (setq linux t)))
+
+(setq platform (cond
+  ((eq system-type 'windows-nt) 'windows) ;; should also handle 'cygwin?
+  ((eq system-type 'darwin) 'mac)
+  (t 'linux)))
 
 ;; hide all menus, toolbars and scrollbars
 (if (fboundp 'scroll-bar-mode) (scroll-bar-mode -1))
@@ -16,8 +29,15 @@
 
 (require 'el-get)
 
-(setq my-packages
+(when (equal platform 'linux)
+  (setq my-packages
        '(ergoemacs-keybindings yasnippet auto-complete org-mode))
+)
+
+(when (equal platform 'windows)
+  (setq my-packages
+       '(ergoemacs-keybindings auto-complete color-theme cmake-mode))
+)
 
 (el-get 'sync my-packages)
 
@@ -56,10 +76,14 @@
 (setq color-theme-is-global t)
 (color-theme-euphoria)
 
-(when (equal system-type 'gnu/linux)
+(when (equal platform 'linux)
   (set-face-attribute 'default nil :family "Droid Sans Mono" :height 142)
 )
+(when (equal platform 'windows)
+  (set-face-attribute 'default nil :family "Consolas" :height 143)
+)
+
 ;; cedet
 ;;(load "~/.emacs.d/conf/conf-cedet.el")
-(require 'yasnippet)
-(yas/reload-all)
+;;(require 'yasnippet)
+;;(yas/reload-all)
