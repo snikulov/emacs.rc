@@ -83,7 +83,9 @@
   (set-face-attribute 'default nil :family "Consolas" :height 143)
 )
 
-;; cedet
-;;(load "~/.emacs.d/conf/conf-cedet.el")
-;;(require 'yasnippet)
-;;(yas/reload-all)
+(when (equal platform 'linux)
+  (require 'yasnippet)
+  (yas/reload-all)
+)
+
+
