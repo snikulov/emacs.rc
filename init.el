@@ -17,7 +17,7 @@
 (require 'el-get)
 
 (setq my-packages
-       '(ergoemacs-keybindings yasnippet auto-complete))
+       '(ergoemacs-keybindings yasnippet auto-complete org-mode))
 
 (el-get 'sync my-packages)
 
