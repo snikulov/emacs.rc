@@ -1,5 +1,6 @@
 ;; gtags on Fedora
 (setq load-path (cons "/usr/share/gtags" load-path))
+(setq load-path (cons "/usr/share/emacs/site-lisp" load-path))
 (autoload 'gtags-mode "gtags" "" t)
 
 (setq c-mode-hook '(lambda () (gtags-mode 1)))

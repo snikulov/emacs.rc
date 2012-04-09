@@ -28,18 +28,21 @@
 (add-to-list 'load-path "~/.emacs.d/el-get/el-get")
 
 (require 'el-get)
+(require 'delsel)
+(el-get-emacswiki-refresh)
 
 (setq ac-dwim t)
 (setq yas/snippet-dirs '"~/.emacs.d/snippets")
 
 (when (equal platform 'linux)
   (setq my-packages
-       '(ergoemacs-keybindings yasnippet auto-complete org-mode))
+       '(delsel ergoemacs-keybindings yasnippet auto-complete color-theme
+	cmake-mode org-mode xgtags xgtags-extension))
 )
 
 (when (equal platform 'windows)
   (setq my-packages
-       '(ergoemacs-keybindings auto-complete color-theme cmake-mode))
+       '(delsel ergoemacs-keybindings auto-complete color-theme cmake-mode))
 )
 
 (el-get 'sync my-packages)
