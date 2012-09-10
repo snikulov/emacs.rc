@@ -29,6 +29,7 @@
 
 (require 'el-get)
 (require 'delsel)
+(require 'log-edit)
 (el-get-emacswiki-refresh)
 
 (setq ac-dwim t)
@@ -42,7 +43,7 @@
 
 (when (equal platform 'windows)
   (setq my-packages
-       '(delsel ergoemacs-keybindings auto-complete color-theme cmake-mode))
+       '(ergoemacs-keybindings yasnippet auto-complete cmake-mode))
 )
 
 (el-get 'sync my-packages)
@@ -77,23 +78,24 @@
       c++-basic-offset 4
       indent-tabs-mode nil)
 
-(require 'color-theme)
-(color-theme-initialize)
-(setq color-theme-is-global t)
-(color-theme-euphoria)
 
 (when (equal platform 'linux)
+  (require 'color-theme)
+  (color-theme-initialize)
+  (setq color-theme-is-global t)
+  (color-theme-euphoria)
   (set-face-attribute 'default nil :family "Droid Sans Mono" :height 142)
 )
+
+(require 'yasnippet)
+;;(yas/initialize)
+(yas/load-directory "~/.emacs.d/snippets")
+(yas/reload-all)
+
+
 (when (equal platform 'windows)
   (set-face-attribute 'default nil :family "Consolas" :height 143)
 )
 
-(when (equal platform 'linux)
-  (require 'yasnippet)
-  (yas/initialize)
-  (yas/load-directory "~/.emacs.d/snippets")
-  (yas/reload-all)
-)
 
 
