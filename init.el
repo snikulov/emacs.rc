@@ -1,10 +1,14 @@
 ;;(load "~/.emacs.d/el-get-install.el")
-
+(load "~/.emacs.d/gtags.el")
 ;; common lisp enable for cedet
 (require 'cl)
 
 ;; set environment for ErgoEmacs - Dvorak keyboard layout
 (setenv "ERGOEMACS_KEYBOARD_LAYOUT" "dv")
+
+;; set lang to utf-8
+(setenv "LANG" "en_US.UTF-8" )
+(setenv "LC_ALL" "en_US.UTF-8" )
 
 ;; http://stackoverflow.com/questions/1817257/how-to-determine-operating-system-in-elisp
 ;; ;; it's better to store platform as symbol, not as several symbols
@@ -19,6 +23,20 @@
   ((eq system-type 'darwin) 'mac)
   (t 'linux)))
 
+(when (equal platform 'windows)
+  (let (
+        (myPathList
+         [
+          "C:/Program Files (x86)/Git/bin"
+          "C:/WORK/msys/bin"
+          "C:/WORK/msys/mingw/bin"
+         ] )
+        )
+    (setenv "PATH" (mapconcat 'identity myPathList ";") )
+
+    (setq exec-path (append myPathList (list "." exec-directory)) )
+    ) )
+
 ;; hide all menus, toolbars and scrollbars
 (if (fboundp 'scroll-bar-mode) (scroll-bar-mode -1))
 (if (fboundp 'tool-bar-mode) (tool-bar-mode -1))
@@ -30,7 +48,7 @@
 (require 'el-get)
 (require 'delsel)
 (require 'log-edit)
-(el-get-emacswiki-refresh)
+;;(el-get-emacswiki-refresh)
 
 (setq ac-dwim t)
 (setq yas/snippet-dirs '"~/.emacs.d/snippets")
