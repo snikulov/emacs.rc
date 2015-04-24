@@ -1,4 +1,7 @@
 ;; set ergoemacs-mode by default
+(setq ergoemacs-theme nil)
+(setq ergoemacs-keyboard-layout "dv")
+(require 'ergoemacs-mode)
 (ergoemacs-mode 1)
 
 ;; open keyboard shortcut image with F8 key

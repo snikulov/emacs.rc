@@ -55,13 +55,13 @@
 
 (when (equal platform 'linux)
   (setq my-packages
-       '(delsel ergoemacs-keybindings yasnippet auto-complete color-theme
+       '(delsel ergoemacs-mode yasnippet auto-complete color-theme
 	cmake-mode org-mode xgtags xgtags-extension))
 )
 
 (when (equal platform 'windows)
   (setq my-packages
-       '(ergoemacs-keybindings yasnippet auto-complete cmake-mode))
+       '(ergoemacs-mode yasnippet auto-complete cmake-mode color-theme))
 )
 
 (el-get 'sync my-packages)
@@ -112,8 +112,28 @@
 
 
 (when (equal platform 'windows)
+  (require 'color-theme)
+  (color-theme-initialize)
+  (setq color-theme-is-global t)
+  (color-theme-euphoria)
   (set-face-attribute 'default nil :family "Consolas" :height 143)
 )
 
 
 
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(delete-selection-mode t)
+ '(org-CUA-compatible nil)
+ '(org-replace-disputed-keys nil)
+ '(recentf-mode t)
+ '(shift-select-mode nil))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )
