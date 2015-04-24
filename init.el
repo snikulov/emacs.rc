@@ -55,13 +55,17 @@
 
 (when (equal platform 'linux)
   (setq my-packages
-       '(delsel ergoemacs-mode yasnippet auto-complete color-theme
+        '(delsel ergoemacs-mode yasnippet auto-complete color-theme
+                 color-theme-almost-monokai color-theme-tango
+                 color-theme-tango-2 color-theme-tangotango
 	cmake-mode org-mode xgtags xgtags-extension))
 )
 
 (when (equal platform 'windows)
   (setq my-packages
-       '(ergoemacs-mode yasnippet auto-complete cmake-mode color-theme))
+        '(ergoemacs-mode yasnippet auto-complete cmake-mode color-theme
+                 color-theme-almost-monokai color-theme-tango
+                 color-theme-tango-2 color-theme-tangotango))
 )
 
 (el-get 'sync my-packages)
@@ -101,7 +105,8 @@
   (require 'color-theme)
   (color-theme-initialize)
   (setq color-theme-is-global t)
-  (color-theme-euphoria)
+;;  (color-theme-euphoria)
+  (color-theme-almost-monokai)
   (set-face-attribute 'default nil :family "Droid Sans Mono" :height 142)
 )
 
@@ -115,7 +120,8 @@
   (require 'color-theme)
   (color-theme-initialize)
   (setq color-theme-is-global t)
-  (color-theme-euphoria)
+;;  (color-theme-euphoria)
+  (color-theme-almost-monokai)
   (set-face-attribute 'default nil :family "Consolas" :height 143)
 )
 
