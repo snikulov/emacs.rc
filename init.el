@@ -1,5 +1,6 @@
 ;;(load "~/.emacs.d/el-get-install.el")
 (add-to-list 'load-path "~/.emacs.d/el-get/el-get")
+(add-to-list 'default-frame-alist '(fullscreen . maximized))
 
 (unless (require 'el-get nil 'noerror)
   (with-current-buffer
@@ -14,6 +15,7 @@
 (load "~/.emacs.d/gtags.el")
 ;; common lisp enable for cedet
 (require 'cl)
+
 
 ;; set environment for ErgoEmacs - Dvorak keyboard layout
 (setenv "ERGOEMACS_KEYBOARD_LAYOUT" "dv")
@@ -60,7 +62,7 @@
 (require 'el-get)
 (require 'delsel)
 (require 'log-edit)
-;;(el-get-emacswiki-refresh)
+(el-get-emacswiki-refresh)
 
 (setq ac-dwim t)
 (setq yas/snippet-dirs '"~/.emacs.d/snippets")
@@ -68,18 +70,18 @@
 (when (equal platform 'linux)
   (setq my-packages
         '(delsel ergoemacs-mode yasnippet auto-complete
-;;         color-theme
-;;                 color-theme-almost-monokai color-theme-tango
-;;                 color-theme-tango-2 color-theme-tangotango
+         color-theme
+                 color-theme-almost-monokai color-theme-tango
+                 color-theme-tango-2 color-theme-tangotango
                  cmake-mode org-mode xgtags xgtags-extension))
 )
 
 (when (equal platform 'windows)
   (setq my-packages
         '(ergoemacs-mode yasnippet auto-complete cmake-mode
-;;                 color-theme
-;;                 color-theme-almost-monokai color-theme-tango
-;;                 color-theme-tango-2 color-theme-tangotango
+                 color-theme
+                 color-theme-almost-monokai color-theme-tango
+                 color-theme-tango-2 color-theme-tangotango
                  ))
 )
 
@@ -117,11 +119,11 @@
 
 
 (when (equal platform 'linux)
-;;  (require 'color-theme)
-;;  (color-theme-initialize)
-;;  (setq color-theme-is-global t)
-;;  (color-theme-euphoria)
-;;  (color-theme-almost-monokai)
+  (require 'color-theme)
+  (color-theme-initialize)
+  (setq color-theme-is-global t)
+  (color-theme-euphoria)
+  (color-theme-almost-monokai)
   (set-face-attribute 'default nil :family "Droid Sans Mono" :height 142)
 )
 
@@ -132,11 +134,11 @@
 
 
 (when (equal platform 'windows)
-;;  (require 'color-theme)
-;;  (color-theme-initialize)
-;;  (setq color-theme-is-global t)
-;;  (color-theme-euphoria)
-;;  (color-theme-almost-monokai)
+  (require 'color-theme)
+  (color-theme-initialize)
+  (setq color-theme-is-global t)
+  (color-theme-euphoria)
+  (color-theme-almost-monokai)
   (set-face-attribute 'default nil :family "Consolas" :height 143)
 )
 
