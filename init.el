@@ -18,7 +18,7 @@
 
 
 ;; set environment for ErgoEmacs - Dvorak keyboard layout
-(setenv "ERGOEMACS_KEYBOARD_LAYOUT" "dv")
+;;(setenv "ERGOEMACS_KEYBOARD_LAYOUT" "dv")
 
 ;; set lang to utf-8
 (setenv "LANG" "en_US.UTF-8" )
@@ -69,20 +69,25 @@
 
 (when (equal platform 'linux)
   (setq my-packages
-        '(delsel ergoemacs-mode yasnippet auto-complete
-         color-theme
-                 color-theme-almost-monokai color-theme-tango
-                 color-theme-tango-2 color-theme-tangotango
-                 cmake-mode org-mode xgtags xgtags-extension))
+        '(delsel
+;;          ergoemacs-mode
+          yasnippet auto-complete
+          color-theme
+          color-theme-almost-monokai color-theme-tango
+          color-theme-tango-2 color-theme-tangotango
+          cmake-mode org-mode xgtags xgtags-extension
+          ))
 )
 
 (when (equal platform 'windows)
   (setq my-packages
-        '(ergoemacs-mode yasnippet auto-complete cmake-mode
-                 color-theme
-                 color-theme-almost-monokai color-theme-tango
-                 color-theme-tango-2 color-theme-tangotango
-                 ))
+        '(
+;;          ergoemacs-mode
+          yasnippet auto-complete cmake-mode
+          color-theme
+          color-theme-almost-monokai color-theme-tango
+          color-theme-tango-2 color-theme-tangotango
+          ))
 )
 
 (el-get 'sync my-packages)
