@@ -1,3 +1,31 @@
+;; http://stackoverflow.com/questions/1817257/how-to-determine-operating-system-in-elisp
+;; ;; it's better to store platform as symbol, not as several symbols
+(setq windows nil mac nil linux nil)
+(cond
+  ((eq system-type 'windows-nt) (setq windows t))
+  ((eq system-type 'darwin) (setq mac t))
+  (t (setq linux t)))
+
+(setq platform (cond
+  ((eq system-type 'windows-nt) 'windows) ;; should also handle 'cygwin?
+  ((eq system-type 'darwin) 'mac)
+  (t 'linux)))
+
+(when (equal platform 'windows)
+  (let (
+        (myPathList
+         [
+          "C:/Program Files (x86)/Git/bin"
+          "~/AppData/Local/Programs/Git/cmd"
+          "~/AppData/Local/Programs/Git/usr/bin"
+          "C:/WORK/bin"
+         ] )
+        )
+    (setenv "PATH" (mapconcat 'identity myPathList ";") )
+
+    (setq exec-path (append myPathList (list "." exec-directory)) )
+    ) )
+
 ;;(load "~/.emacs.d/el-get-install.el")
 (add-to-list 'load-path "~/.emacs.d/el-get/el-get")
 (add-to-list 'default-frame-alist '(fullscreen . maximized))
@@ -24,32 +52,6 @@
 (setenv "LANG" "en_US.UTF-8" )
 (setenv "LC_ALL" "en_US.UTF-8" )
 
-;; http://stackoverflow.com/questions/1817257/how-to-determine-operating-system-in-elisp
-;; ;; it's better to store platform as symbol, not as several symbols
-(setq windows nil mac nil linux nil)
-(cond
-  ((eq system-type 'windows-nt) (setq windows t))
-  ((eq system-type 'darwin) (setq mac t))
-  (t (setq linux t)))
-
-(setq platform (cond
-  ((eq system-type 'windows-nt) 'windows) ;; should also handle 'cygwin?
-  ((eq system-type 'darwin) 'mac)
-  (t 'linux)))
-
-(when (equal platform 'windows)
-  (let (
-        (myPathList
-         [
-          "C:/Program Files (x86)/Git/bin"
-          "C:/WORK/msys/bin"
-          "C:/WORK/msys/mingw/bin"
-         ] )
-        )
-    (setenv "PATH" (mapconcat 'identity myPathList ";") )
-
-    (setq exec-path (append myPathList (list "." exec-directory)) )
-    ) )
 
 ;; hide all menus, toolbars and scrollbars
 (if (fboundp 'scroll-bar-mode) (scroll-bar-mode -1))
