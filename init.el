@@ -12,7 +12,7 @@
 (add-to-list 'el-get-recipe-path "~/.emacs.d/el-get-user/recipes")
 (el-get 'sync)
 
-(load "~/.emacs.d/gtags.el")
+;;(load "~/.emacs.d/gtags.el")
 ;; common lisp enable for cedet
 (require 'cl)
 
@@ -62,7 +62,7 @@
 (require 'el-get)
 (require 'delsel)
 (require 'log-edit)
-(el-get-emacswiki-refresh)
+;;(el-get-emacswiki-refresh)
 
 (setq ac-dwim t)
 (setq yas/snippet-dirs '"~/.emacs.d/snippets")
@@ -71,11 +71,18 @@
   (setq my-packages
         '(delsel
 ;;          ergoemacs-mode
-          yasnippet auto-complete
+          yasnippet
+          auto-complete
           color-theme
-          color-theme-almost-monokai color-theme-tango
-          color-theme-tango-2 color-theme-tangotango
-          cmake-mode org-mode xgtags xgtags-extension
+          color-theme-almost-monokai
+          color-theme-tango
+          color-theme-tango-2
+          color-theme-tangotango
+          cmake-mode
+          clang-format
+          go-mode
+;;          org-mode
+;;          xgtags xgtags-extension
           ))
 )
 
@@ -87,6 +94,7 @@
           color-theme
           color-theme-almost-monokai color-theme-tango
           color-theme-tango-2 color-theme-tangotango
+          go-mode
           ))
 )
 
@@ -103,6 +111,11 @@
 (setq auto-mode-alist
 	(append '(("CMakeLists\\.txt\\'" . cmake-mode)
 		("\\.cmake\\'" . cmake-mode))
+		auto-mode-alist))
+
+(require 'go-mode)
+(setq auto-mode-alist
+	(append '(("\\.go\\'" . go-mode))
 		auto-mode-alist))
 
 ;; nuke trailing whitespaces
@@ -129,7 +142,7 @@
   (setq color-theme-is-global t)
   (color-theme-euphoria)
   (color-theme-almost-monokai)
-  (set-face-attribute 'default nil :family "Droid Sans Mono" :height 142)
+  (set-face-attribute 'default nil :family "Droid Sans Mono" :height 182)
 )
 
 (require 'yasnippet)
@@ -146,22 +159,3 @@
   (color-theme-almost-monokai)
   (set-face-attribute 'default nil :family "Consolas" :height 143)
 )
-
-
-
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(delete-selection-mode t)
- '(org-CUA-compatible nil)
- '(org-replace-disputed-keys nil)
- '(recentf-mode t)
- '(shift-select-mode nil))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )
