@@ -16,9 +16,8 @@
         (myPathList
          [
           "C:/Program Files (x86)/Git/bin"
-          "~/AppData/Local/Programs/Git/cmd"
-          "~/AppData/Local/Programs/Git/usr/bin"
-          "C:/WORK/bin"
+          "C:/Program Files/Git/bin"
+          "C:/Program Files/Git/usr/bin"
          ] )
         )
     (setenv "PATH" (mapconcat 'identity myPathList ";") )
