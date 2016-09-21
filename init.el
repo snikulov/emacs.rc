@@ -18,6 +18,7 @@
           "C:/Program Files (x86)/Git/bin"
           "C:/Program Files/Git/bin"
           "C:/Program Files/Git/usr/bin"
+          "C:/TOOLS/common/bin"
          ] )
         )
     (setenv "PATH" (mapconcat 'identity myPathList ";") )
@@ -56,6 +57,10 @@
 (if (fboundp 'scroll-bar-mode) (scroll-bar-mode -1))
 (if (fboundp 'tool-bar-mode) (tool-bar-mode -1))
 (if (fboundp 'menu-bar-mode) (menu-bar-mode -1))
+;; store backups in specified folder
+(setq backup-directory-alist '(("" . "~/.emacs-backup")))
+;; stop creating #autosave# files
+(setq auto-save-default nil) 
 
 ;; el-get
 (add-to-list 'load-path "~/.emacs.d/el-get/el-get")
