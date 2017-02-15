@@ -1,167 +1,317 @@
-;; http://stackoverflow.com/questions/1817257/how-to-determine-operating-system-in-elisp
-;; ;; it's better to store platform as symbol, not as several symbols
-(setq windows nil mac nil linux nil)
-(cond
-  ((eq system-type 'windows-nt) (setq windows t))
-  ((eq system-type 'darwin) (setq mac t))
-  (t (setq linux t)))
+;;; init.el --- GNU Emacs Configuration
 
-(setq platform (cond
-  ((eq system-type 'windows-nt) 'windows) ;; should also handle 'cygwin?
-  ((eq system-type 'darwin) 'mac)
-  (t 'linux)))
+;; Make startup faster by reducing the frequency of garbage
+;; collection.
+(setq gc-cons-threshold (* 50 1000 1000))
 
-(when (equal platform 'windows)
-  (let (
-        (myPathList
-         [
-          "C:/Program Files (x86)/Git/bin"
-          "C:/Program Files/Git/bin"
-          "C:/Program Files/Git/usr/bin"
-          "C:/TOOLS/common/bin"
-         ] )
-        )
-    (setenv "PATH" (mapconcat 'identity myPathList ";") )
+(require 'package)
+(package-initialize)
 
-    (setq exec-path (append myPathList (list "." exec-directory)) )
-    ) )
+;; configure package archives
+(setq package-archives '(("gnu" . "https://elpa.gnu.org/packages/")
+                         ("melpa" . "https://melpa.org/packages/")
+                         ("org" . "https://orgmode.org/elpa/")))
+;; install use-package
+(unless (package-installed-p 'use-package)
+  (package-refresh-contents)
+  (package-install 'use-package))
+(require 'use-package)
+(setq use-package-always-ensure t)
 
-;;(load "~/.emacs.d/el-get-install.el")
-(add-to-list 'load-path "~/.emacs.d/el-get/el-get")
-(add-to-list 'default-frame-alist '(fullscreen . maximized))
+(use-package delight)
+(use-package use-package-ensure-system-package)
 
-(unless (require 'el-get nil 'noerror)
-  (with-current-buffer
-      (url-retrieve-synchronously
-       "https://raw.githubusercontent.com/dimitri/el-get/master/el-get-install.el")
-    (goto-char (point-max))
-    (eval-print-last-sexp)))
+(setq auth-sources '("~/.config/gnupg/shared/authinfo.gpg"
+                     "~/.authinfo.gpg"
+                     "~/.authinfo"
+                     "~/.netrc"))
 
-(add-to-list 'el-get-recipe-path "~/.emacs.d/el-get-user/recipes")
-(el-get 'sync)
+(setq-default
+ ad-redefinition-action 'accept                   ; Silence warnings for redefinition
+ cursor-in-non-selected-windows t                 ; Hide the cursor in inactive windows
+ display-time-default-load-average nil            ; Don't display load average
+ fill-column 80                                   ; Set width for automatic line breaks
+ help-window-select t                             ; Focus new help windows when opened
+ indent-tabs-mode nil                             ; Prefers spaces over tabs
+ inhibit-startup-screen t                         ; Disable start-up screen
+ initial-scratch-message ""                       ; Empty the initial *scratch* buffer
+ kill-ring-max 128                                ; Maximum length of kill ring
+ load-prefer-newer t                              ; Prefers the newest version of a file
+ mark-ring-max 128                                ; Maximum length of mark ring
+ read-process-output-max (* 1024 1024)            ; Increase the amount of data reads from the process
+ scroll-conservatively most-positive-fixnum       ; Always scroll by one line
+ select-enable-clipboard t                        ; Merge system's and Emacs' clipboard
+ tab-width 8                                      ; Set width for tabs
+ use-package-always-ensure t                      ; Avoid the :ensure keyword for each package
+ user-full-name "Sergey Nikulov"                  ; Set the full name of the current user
+ user-mail-address "snikulov@topcon.com"  ; Set the email address of the current user
+ vc-follow-symlinks t                             ; Always follow the symlinks
+ view-read-only t)                                ; Always open read-only buffers in view-mode
+(cd "~/")                                         ; Move to the user directory
+(column-number-mode 1)                            ; Show the column number
+(display-time-mode 1)                             ; Enable time in the mode-line
+(fset 'yes-or-no-p 'y-or-n-p)                     ; Replace yes/no prompts with y/n
+(global-hl-line-mode 1)                             ; Hightlight current line
+(set-default-coding-systems 'utf-8)               ; Default to utf-8 encoding
+(show-paren-mode 1)                               ; Show the parent
+(global-linum-mode 1)
 
-;;(load "~/.emacs.d/gtags.el")
-;; common lisp enable for cedet
-(require 'cl)
-
-
-;; set environment for ErgoEmacs - Dvorak keyboard layout
-;;(setenv "ERGOEMACS_KEYBOARD_LAYOUT" "dv")
-
-;; set lang to utf-8
-(setenv "LANG" "en_US.UTF-8" )
-(setenv "LC_ALL" "en_US.UTF-8" )
-
-
-;; hide all menus, toolbars and scrollbars
-(if (fboundp 'scroll-bar-mode) (scroll-bar-mode -1))
-(if (fboundp 'tool-bar-mode) (tool-bar-mode -1))
-(if (fboundp 'menu-bar-mode) (menu-bar-mode -1))
-;; store backups in specified folder
-(setq backup-directory-alist '(("" . "~/.emacs-backup")))
-;; stop creating #autosave# files
-(setq auto-save-default nil) 
-
-;; el-get
-(add-to-list 'load-path "~/.emacs.d/el-get/el-get")
-
-(require 'el-get)
-(require 'delsel)
-(require 'log-edit)
-;;(el-get-emacswiki-refresh)
-
-(setq ac-dwim t)
-(setq yas/snippet-dirs '"~/.emacs.d/snippets")
-
-(when (equal platform 'linux)
-  (setq my-packages
-        '(delsel
-;;          ergoemacs-mode
-          yasnippet
-          auto-complete
-          color-theme
-          color-theme-almost-monokai
-          color-theme-tango
-          color-theme-tango-2
-          color-theme-tangotango
-          cmake-mode
-          clang-format
-          go-mode
-;;          org-mode
-;;          xgtags xgtags-extension
-          ))
-)
-
-(when (equal platform 'windows)
-  (setq my-packages
-        '(
-;;          ergoemacs-mode
-          yasnippet auto-complete cmake-mode
-          color-theme
-          color-theme-almost-monokai color-theme-tango
-          color-theme-tango-2 color-theme-tangotango
-          go-mode
-          ))
-)
-
-(el-get 'sync my-packages)
-
-(load "~/.emacs.d/conf/conf-keyboard.el")
-;;(load "~/.emacs.d/conf/emacs-rc-common-hooks.el")
-(load "~/.emacs.d/conf/emacs-rc-auto-insert.el")
-;;(load "~/.emacs.d/conf/emacs-rc-ccmode.el")
-(load "~/.emacs.d/conf/conf-gtags.el")
-
-;; cmake mode hook
-(require 'cmake-mode)
-(setq auto-mode-alist
-	(append '(("CMakeLists\\.txt\\'" . cmake-mode)
-		("\\.cmake\\'" . cmake-mode))
-		auto-mode-alist))
-
-(require 'go-mode)
-(setq auto-mode-alist
-	(append '(("\\.go\\'" . go-mode))
-		auto-mode-alist))
-
-;; nuke trailing whitespaces
-(add-hook 'before-save-hook 'delete-trailing-whitespace)
-
-;; additional ws options
-(setq-default show-trailing-whitespace t)
-(setq-default indicate-empty-lines t)
-(setq-default indent-tabs-mode nil)
 
 ;; default coding style
 (setq c-default-style "bsd"
       c-basic-offset 4
       indent-tabs-mode nil)
-
 (setq c++-default-style "bsd"
       c++-basic-offset 4
       indent-tabs-mode nil)
+(setq whitespace-style '(trailing tabs newline tab-mark newline-mark))
+(setq-default show-trailing-whitespace t)
+(setq-default indicate-empty-lines t)
+(setq-default indent-tabs-mode nil)
+
+;; delete trailing whitespace on save
+(use-package simple
+  :ensure nil
+  :hook (before-save . delete-trailing-whitespace))
+(use-package all-the-icons
+  :defer 0.5)
+;; neotree on f8
+(use-package neotree
+  :custom (neo-show-hidden-files t)
+  :bind ("<f8>" . neotree-toggle))
+;; buffer swithcher
+(use-package popup-switcher
+  :bind ("<f2>" . psw-switch-buffer))
+
+;;
+;; Themes
+;;
+;; start the initial frame maximized
+(add-to-list 'initial-frame-alist '(fullscreen . maximized))
+;; start every frame maximized
+(add-to-list 'default-frame-alist '(fullscreen . maximized))
+
+(use-package command-log-mode
+  :commands command-log-mode)
 
 
-(when (equal platform 'linux)
-  (require 'color-theme)
-  (color-theme-initialize)
-  (setq color-theme-is-global t)
-  (color-theme-euphoria)
-  (color-theme-almost-monokai)
-  (set-face-attribute 'default nil :family "Droid Sans Mono" :height 182)
+(when (display-graphic-p)
+  (set-face-attribute 'default nil :font "Source Code Pro Medium-16")
+  (set-fontset-font t 'latin "Noto Sans")
+  (scroll-bar-mode -1)            ; Disable the scroll bar
+  (use-package doom-themes
+    :config (load-theme 'doom-nord t))
+  (use-package doom-modeline
+    :defer 0.1
+    :config (doom-modeline-mode))
+  (use-package fancy-battery
+    :after doom-modeline
+    :hook (after-init . fancy-battery-mode))
 )
+(unless (display-graphic-p)
+  (use-package monokai-theme
+    :config (load-theme 'monokai t)))
 
-(require 'yasnippet)
-;;(yas/initialize)
-(yas/load-directory "~/.emacs.d/snippets")
-(yas/reload-all)
+(use-package solaire-mode
+  :custom (solaire-mode-remap-fringe t)
+  :config
+  (solaire-mode-swap-bg)
+  (solaire-global-mode +1))
+
+(menu-bar-mode -1)              ; Disable the menu bar
+(tool-bar-mode -1)              ; Disable the tool bar
+(tooltip-mode -1)               ; Disable the tooltips
+
+(use-package ggtags
+  :hook (prog-mode . ggtags-mode))
+
+(use-package lsp-mode
+  :commands lsp
+  :hook ((c-mode c++-mode json-mode python-mode xml-mode) . lsp)
+  :after projectile
+  :custom
+  (lsp-enable-folding nil)
+  (lsp-enable-links nil)
+  (lsp-enable-snippet nil)
+  (lsp-prefer-flymake nil)
+  (lsp-restart 'auto-restart)
+  :config
+  (setq lsp-clients-clangd-args '("-j=4" "-background-index" "-log=error"))
+  )
+
+(use-package lsp-ui)
+
+(use-package dap-mode
+  :after lsp-mode
+  :config
+  (dap-mode t)
+  (dap-ui-mode t))
+
+; (use-package ccls
+;   :after projectile
+;   :ensure-system-package ccls
+;   :custom
+;   (ccls-args nil)
+;   (ccls-executable (executable-find "ccls"))
+;   (projectile-project-root-files-top-down-recurring
+;    (append '("compile_commands.json" ".ccls")
+;            projectile-project-root-files-top-down-recurring))
+;   :config (add-to-list 'projectile-globally-ignored-directories ".ccls-cache"))
+
+(use-package projectile
+  :diminish projectile-mode
+  :config
+  (projectile-mode)
+  :custom ((projectile-completion-system 'ivy))
+  :bind-keymap
+  ("C-c p" . projectile-command-map)
+  :init
+  ;; NOTE: Set this to the folder where you keep your Git repos!
+  (when (file-directory-p "~/work")
+    (setq projectile-project-search-path '("~/work")))
+  (setq projectile-switch-project-action #'projectile-dired))
+
+(use-package counsel-projectile
+  :config (counsel-projectile-mode))
+
+(use-package cmake-mode
+  :mode ("CMakeLists\\.txt\\'" "\\.cmake\\'"))
+
+(use-package cmake-font-lock
+  :after (cmake-mode)
+  :hook (cmake-mode . cmake-font-lock-activate))
+
+(use-package cmake-ide
+  :after projectile
+  :hook ((c-mode c++-mode) . my/cmake-ide-find-project)
+  :preface
+  (defun my/cmake-ide-find-project ()
+    "Finds the directory of the project for cmake-ide."
+    (with-eval-after-load 'projectile
+      (setq cmake-ide-project-dir (projectile-project-root))
+      (setq cmake-ide-build-dir (concat cmake-ide-project-dir "build")))
+    (setq cmake-ide-compile-command
+          (concat "cmake -S" cmake-ide-project-dir " -B" cmake-ide-build-dir " -DCMAKE_EXPORT_COMPILE_COMMANDS=ON && cmake --build " cmake-ide-build-dir))
+    (cmake-ide-load-db))
+
+  (defun my/switch-to-compilation-window ()
+    "Switches to the *compilation* buffer after compilation."
+    (other-window 1))
+  :bind ([remap comment-region] . cmake-ide-compile)
+  :init (cmake-ide-setup)
+  :config (advice-add 'cmake-ide-compile :after #'my/switch-to-compilation-window))
 
 
-(when (equal platform 'windows)
-  (require 'color-theme)
-  (color-theme-initialize)
-  (setq color-theme-is-global t)
-  (color-theme-euphoria)
-  (color-theme-almost-monokai)
-  (set-face-attribute 'default nil :family "Consolas" :height 143)
-)
+(use-package yasnippet-snippets
+  :after yasnippet
+  :config (yasnippet-snippets-initialize))
+
+(use-package yasnippet
+  :delight yas-minor-mode " υ"
+  :hook (yas-minor-mode . my/disable-yas-if-no-snippets)
+  :config (yas-global-mode)
+  :preface
+  (defun my/disable-yas-if-no-snippets ()
+    (when (and yas-minor-mode (null (yas--get-snippet-tables)))
+      (yas-minor-mode -1))))
+
+(use-package rainbow-mode
+  :delight
+  :hook (prog-mode))
+(use-package rainbow-delimiters
+  :hook (prog-mode . rainbow-delimiters-mode))
+
+(use-package which-key
+  :defer 0.2
+  :delight
+  :config (which-key-mode))
+
+(use-package counsel
+  :after ivy
+  :delight
+  :bind (("C-x C-d" . counsel-dired-jump)
+         ("C-x C-h" . counsel-minibuffer-history)
+         ("C-x C-l" . counsel-find-library)
+         ("C-x C-r" . counsel-recentf)
+         ("C-x C-u" . counsel-unicode-char)
+         ("C-M-j" . counsel-switch-buffer)
+         ("C-x C-v" . counsel-set-variable))
+  :config (counsel-mode 1)
+  :custom (counsel-rg-base-command "rg -S -M 150 --no-heading --line-number --color never %s"))
+
+(use-package ivy
+  :delight
+  :after ivy-rich
+  :bind (("C-x b" . ivy-switch-buffer)
+         ("C-x B" . ivy-switch-buffer-other-window)
+         ("M-H"   . ivy-resume)
+         :map ivy-minibuffer-map
+         ("<tab>" . ivy-alt-done)
+         ("C-i" . ivy-partial-or-done)
+         ("S-SPC" . nil)
+         :map ivy-switch-buffer-map
+         ("C-k" . ivy-switch-buffer-kill))
+  :custom
+  (ivy-case-fold-search-default t)
+  (ivy-count-format "(%d/%d) ")
+  (ivy-re-builders-alist '((t . ivy--regex-plus)))
+  (ivy-use-virtual-buffers t)
+  :config (ivy-mode))
+
+(use-package avy
+  :bind ("<f5>" . avy-goto-line))
+
+(use-package ivy-avy)
+
+(use-package ivy-rich
+  :defer 0.1
+  :config (ivy-rich-mode 1))
+
+(use-package swiper
+  :after ivy
+  :bind (("C-s" . swiper)
+         :map swiper-map
+         ("M-%" . swiper-query-replace)))
+
+(use-package company
+  :defer 0.5
+  :delight
+  :custom
+  (company-begin-commands '(self-insert-command))
+  (company-idle-delay 0)
+  (company-minimum-prefix-length 2)
+  (company-show-numbers t)
+  (company-tooltip-align-annotations 't)
+  (global-company-mode t))
+
+(use-package company-box
+  :after company
+  :delight
+  :hook (company-mode . company-box-mode))
+
+;; TODO: configure
+(use-package clang-format)
+(use-package hydra)
+(use-package sourcetrail)
+(use-package magit)
+(use-package flycheck)
+
+
+;; Make gc pauses faster by decreasing the threshold.
+(setq gc-cons-threshold (* 10 1000 1000))
+
+;;; init.el ends here
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(custom-safe-themes
+   '("be9645aaa8c11f76a10bcf36aaf83f54f4587ced1b9b679b55639c87404e2499" "e6ff132edb1bfa0645e2ba032c44ce94a3bd3c15e3929cdf6c049802cf059a2a" "5f824cddac6d892099a91c3f612fcf1b09bb6c322923d779216ab2094375c5ee" default))
+ '(package-selected-packages '(dracula-theme use-package)))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )
