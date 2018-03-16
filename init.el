@@ -1,3 +1,13 @@
+
+;; Added by Package.el.  This must come before configurations of
+;; installed packages.  Don't delete this line.  If you don't want it,
+;; just comment it out by adding a semicolon to the start of the line.
+;; You may delete these explanatory comments.
+(package-initialize)
+(add-to-list 'package-archives
+               '("melpa" . "http://melpa.org/packages/"))
+(package-refresh-contents)
+
 ;; http://stackoverflow.com/questions/1817257/how-to-determine-operating-system-in-elisp
 ;; ;; it's better to store platform as symbol, not as several symbols
 (setq windows nil mac nil linux nil)
@@ -5,6 +15,9 @@
   ((eq system-type 'windows-nt) (setq windows t))
   ((eq system-type 'darwin) (setq mac t))
   (t (setq linux t)))
+
+;; will use magit by default
+(setq vc-handled-backends nil)
 
 (setq platform (cond
   ((eq system-type 'windows-nt) 'windows) ;; should also handle 'cygwin?
@@ -26,27 +39,10 @@
     (setq exec-path (append myPathList (list "." exec-directory)) )
     ) )
 
-;;(load "~/.emacs.d/el-get-install.el")
-(add-to-list 'load-path "~/.emacs.d/el-get/el-get")
 (add-to-list 'default-frame-alist '(fullscreen . maximized))
 
-(unless (require 'el-get nil 'noerror)
-  (with-current-buffer
-      (url-retrieve-synchronously
-       "https://raw.githubusercontent.com/dimitri/el-get/master/el-get-install.el")
-    (goto-char (point-max))
-    (eval-print-last-sexp)))
-
-(add-to-list 'el-get-recipe-path "~/.emacs.d/el-get-user/recipes")
-(el-get 'sync)
-
-;;(load "~/.emacs.d/gtags.el")
 ;; common lisp enable for cedet
 (require 'cl)
-
-
-;; set environment for ErgoEmacs - Dvorak keyboard layout
-;;(setenv "ERGOEMACS_KEYBOARD_LAYOUT" "dv")
 
 ;; set lang to utf-8
 (setenv "LANG" "en_US.UTF-8" )
@@ -60,57 +56,55 @@
 ;; store backups in specified folder
 (setq backup-directory-alist '(("" . "~/.emacs-backup")))
 ;; stop creating #autosave# files
-(setq auto-save-default nil) 
-
-;; el-get
-(add-to-list 'load-path "~/.emacs.d/el-get/el-get")
-
-(require 'el-get)
-(require 'delsel)
-(require 'log-edit)
-;;(el-get-emacswiki-refresh)
+(setq auto-save-default nil)
 
 (setq ac-dwim t)
 (setq yas/snippet-dirs '"~/.emacs.d/snippets")
+(show-paren-mode 1)
+
+(package-install 'yasnippet)
+(package-install 'cmake-mode)
+(package-install 'color-theme)
+;;(package-install 'color-theme-almost-monokai)
+;;(package-install 'color-theme-tango)
+;;(package-install 'color-theme-tango-2)
+;;(package-install 'color-theme-tangotango)
+(package-install 'color-theme-sanityinc-tomorrow)
+(package-install 'clang-format)
+(package-install 'go-mode)
+(package-install 'cpputils-cmake)
+(package-install 'ggtags)
+(package-install 'neotree)
+;;(package-install 'evil-matchit)
+(package-install 'magit)
+(package-install 'atom-one-dark-theme)
+(package-install 'color-theme-modern)
+
+(require 'color-theme)
+(color-theme-initialize)
+(setq color-theme-is-global t)
+;;  (color-theme-sanityinc-tomorrow-eighties)
+(load-theme 'atom-one-dark t)
 
 (when (equal platform 'linux)
-  (setq my-packages
-        '(delsel
-;;          ergoemacs-mode
-          yasnippet
-          auto-complete
-          color-theme
-          color-theme-almost-monokai
-          color-theme-tango
-          color-theme-tango-2
-          color-theme-tangotango
-          cmake-mode
-          clang-format
-          go-mode
-;;          org-mode
-;;          xgtags xgtags-extension
-          ))
+  (set-face-attribute 'default nil :family "Droid Sans Mono" :height 182)
+  (require 'cpputils-cmake)
+  (require 'ggtags)
+  (add-hook 'c-mode-common-hook
+          (lambda ()
+            (when (derived-mode-p 'c-mode 'c++-mode 'java-mode)
+              (ggtags-mode 1)
+              (cppcm-reload-all))))
 )
-
 (when (equal platform 'windows)
-  (setq my-packages
-        '(
-;;          ergoemacs-mode
-          yasnippet auto-complete cmake-mode
-          color-theme
-          color-theme-almost-monokai color-theme-tango
-          color-theme-tango-2 color-theme-tangotango
-          go-mode
-          ))
+  (set-face-attribute 'default nil :family "Consolas" :height 143)
 )
-
-(el-get 'sync my-packages)
 
 (load "~/.emacs.d/conf/conf-keyboard.el")
 ;;(load "~/.emacs.d/conf/emacs-rc-common-hooks.el")
-(load "~/.emacs.d/conf/emacs-rc-auto-insert.el")
+;;(load "~/.emacs.d/conf/emacs-rc-auto-insert.el")
 ;;(load "~/.emacs.d/conf/emacs-rc-ccmode.el")
-(load "~/.emacs.d/conf/conf-gtags.el")
+;;(load "~/.emacs.d/conf/conf-gtags.el")
 
 ;; cmake mode hook
 (require 'cmake-mode)
@@ -142,26 +136,26 @@
       indent-tabs-mode nil)
 
 
-(when (equal platform 'linux)
-  (require 'color-theme)
-  (color-theme-initialize)
-  (setq color-theme-is-global t)
-  (color-theme-euphoria)
-  (color-theme-almost-monokai)
-  (set-face-attribute 'default nil :family "Droid Sans Mono" :height 182)
-)
 
 (require 'yasnippet)
 ;;(yas/initialize)
 (yas/load-directory "~/.emacs.d/snippets")
 (yas/reload-all)
 
+(global-linum-mode 1)
+(global-hl-line-mode 1)
 
-(when (equal platform 'windows)
-  (require 'color-theme)
-  (color-theme-initialize)
-  (setq color-theme-is-global t)
-  (color-theme-euphoria)
-  (color-theme-almost-monokai)
-  (set-face-attribute 'default nil :family "Consolas" :height 143)
-)
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(package-selected-packages
+   (quote
+    (yasnippet neotree magit go-mode ggtags cpputils-cmake color-theme-sanityinc-tomorrow color-theme-modern color-theme cmake-mode clang-format atom-one-dark-theme))))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )
