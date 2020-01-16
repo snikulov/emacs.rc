@@ -1,12 +1,6 @@
+;; initialize packages
+(load "~/.emacs.d/conf/conf-packages.el")
 
-;; Added by Package.el.  This must come before configurations of
-;; installed packages.  Don't delete this line.  If you don't want it,
-;; just comment it out by adding a semicolon to the start of the line.
-;; You may delete these explanatory comments.
-(package-initialize)
-(add-to-list 'package-archives
-               '("melpa" . "http://melpa.org/packages/"))
-(package-refresh-contents)
 
 ;; http://stackoverflow.com/questions/1817257/how-to-determine-operating-system-in-elisp
 ;; ;; it's better to store platform as symbol, not as several symbols
@@ -62,23 +56,23 @@
 (setq yas/snippet-dirs '"~/.emacs.d/snippets")
 (show-paren-mode 1)
 
-(package-install 'yasnippet)
-(package-install 'cmake-mode)
-(package-install 'color-theme)
+;;(package-install 'yasnippet)
+;;(package-install 'cmake-mode)
+;;(package-install 'color-theme)
 ;;(package-install 'color-theme-almost-monokai)
 ;;(package-install 'color-theme-tango)
 ;;(package-install 'color-theme-tango-2)
 ;;(package-install 'color-theme-tangotango)
-(package-install 'color-theme-sanityinc-tomorrow)
-(package-install 'clang-format)
-(package-install 'go-mode)
-(package-install 'cpputils-cmake)
-(package-install 'ggtags)
-(package-install 'neotree)
+;;(package-install 'color-theme-sanityinc-tomorrow)
+;;(package-install 'clang-format)
+;;(package-install 'go-mode)
+;;(package-install 'cpputils-cmake)
+;;(package-install 'ggtags)
+;;(package-install 'neotree)
 ;;(package-install 'evil-matchit)
-(package-install 'magit)
-(package-install 'atom-one-dark-theme)
-(package-install 'color-theme-modern)
+;;(package-install 'magit)
+;;(package-install 'atom-one-dark-theme)
+;;(package-install 'color-theme-modern)
 
 (require 'color-theme)
 (color-theme-initialize)
@@ -113,10 +107,10 @@
 		("\\.cmake\\'" . cmake-mode))
 		auto-mode-alist))
 
-(require 'go-mode)
-(setq auto-mode-alist
-	(append '(("\\.go\\'" . go-mode))
-		auto-mode-alist))
+;;(require 'go-mode)
+;;(setq auto-mode-alist
+;;	(append '(("\\.go\\'" . go-mode))
+;;		auto-mode-alist))
 
 ;; nuke trailing whitespaces
 (add-hook 'before-save-hook 'delete-trailing-whitespace)
@@ -137,10 +131,10 @@
 
 
 
-(require 'yasnippet)
+;;(require 'yasnippet)
 ;;(yas/initialize)
-(yas/load-directory "~/.emacs.d/snippets")
-(yas/reload-all)
+;;(yas/load-directory "~/.emacs.d/snippets")
+;;(yas/reload-all)
 
 (global-linum-mode 1)
 (global-hl-line-mode 1)
@@ -150,9 +144,10 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(package-selected-packages
-   (quote
-    (yasnippet neotree magit go-mode ggtags cpputils-cmake color-theme-sanityinc-tomorrow color-theme-modern color-theme cmake-mode clang-format atom-one-dark-theme))))
+;; '(package-selected-packages
+;;   (quote
+;;    (yasnippet neotree magit go-mode ggtags cpputils-cmake color-theme-sanityinc-tomorrow color-theme-modern color-theme cmake-mode clang-format atom-one-dark-theme))))
+
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.

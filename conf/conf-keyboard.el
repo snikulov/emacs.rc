@@ -16,5 +16,5 @@
 (global-set-key [C-M-down] 'text-scale-decrease)
 (global-set-key [C-M-up] 'text-scale-increase)
 (global-set-key [f5] 'goto-line)
-(global-set-key [C-M-tab] 'clang-format-region)
+;;(global-set-key [C-M-tab] 'clang-format-region)
 (global-set-key [f8] 'neotree-toggle)
