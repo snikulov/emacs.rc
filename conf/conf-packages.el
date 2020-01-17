@@ -4,9 +4,10 @@
 
 (add-to-list 'package-archives
                '("melpa" . "http://melpa.org/packages/"))
+(unless package-archive-contents
+  (package-refresh-contents))
 
 (unless (package-installed-p 'use-package)
-  (unless (package-archive-contents (package-refresh-contents)))
   (package-install 'use-package))
 
 (require 'use-package)
@@ -20,7 +21,7 @@
 
 (use-package yasnippet)
 
-(use-package color-theme)
+;;(use-package color-theme)
 (use-package atom-one-dark-theme)
 
 (use-package cpputils-cmake)

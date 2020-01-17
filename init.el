@@ -56,39 +56,17 @@
 (setq yas/snippet-dirs '"~/.emacs.d/snippets")
 (show-paren-mode 1)
 
-;;(package-install 'yasnippet)
-;;(package-install 'cmake-mode)
-;;(package-install 'color-theme)
-;;(package-install 'color-theme-almost-monokai)
-;;(package-install 'color-theme-tango)
-;;(package-install 'color-theme-tango-2)
-;;(package-install 'color-theme-tangotango)
-;;(package-install 'color-theme-sanityinc-tomorrow)
-;;(package-install 'clang-format)
-;;(package-install 'go-mode)
-;;(package-install 'cpputils-cmake)
-;;(package-install 'ggtags)
-;;(package-install 'neotree)
-;;(package-install 'evil-matchit)
-;;(package-install 'magit)
-;;(package-install 'atom-one-dark-theme)
-;;(package-install 'color-theme-modern)
-
-(require 'color-theme)
-(color-theme-initialize)
-(setq color-theme-is-global t)
-;;  (color-theme-sanityinc-tomorrow-eighties)
 (load-theme 'atom-one-dark t)
 
 (when (equal platform 'linux)
-  (set-face-attribute 'default nil :family "Droid Sans Mono" :height 182)
-  (require 'cpputils-cmake)
-  (require 'ggtags)
-  (add-hook 'c-mode-common-hook
-          (lambda ()
-            (when (derived-mode-p 'c-mode 'c++-mode 'java-mode)
-              (ggtags-mode 1)
-              (cppcm-reload-all))))
+  (set-face-attribute 'default nil :family "Fira Code" :height 182)
+;;  (require 'cpputils-cmake)
+;; (require 'ggtags)
+;;  (add-hook 'c-mode-common-hook
+;;         (lambda ()
+;;            (when (derived-mode-p 'c-mode 'c++-mode 'java-mode)
+;;              (ggtags-mode 1)
+;;              (cppcm-reload-all))))
 )
 (when (equal platform 'windows)
   (set-face-attribute 'default nil :family "Consolas" :height 143)
@@ -99,18 +77,6 @@
 ;;(load "~/.emacs.d/conf/emacs-rc-auto-insert.el")
 ;;(load "~/.emacs.d/conf/emacs-rc-ccmode.el")
 ;;(load "~/.emacs.d/conf/conf-gtags.el")
-
-;; cmake mode hook
-(require 'cmake-mode)
-(setq auto-mode-alist
-	(append '(("CMakeLists\\.txt\\'" . cmake-mode)
-		("\\.cmake\\'" . cmake-mode))
-		auto-mode-alist))
-
-;;(require 'go-mode)
-;;(setq auto-mode-alist
-;;	(append '(("\\.go\\'" . go-mode))
-;;		auto-mode-alist))
 
 ;; nuke trailing whitespaces
 (add-hook 'before-save-hook 'delete-trailing-whitespace)
@@ -129,28 +95,6 @@
       c++-basic-offset 4
       indent-tabs-mode nil)
 
-
-
-;;(require 'yasnippet)
-;;(yas/initialize)
-;;(yas/load-directory "~/.emacs.d/snippets")
-;;(yas/reload-all)
-
 (global-linum-mode 1)
 (global-hl-line-mode 1)
 
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
-;; '(package-selected-packages
-;;   (quote
-;;    (yasnippet neotree magit go-mode ggtags cpputils-cmake color-theme-sanityinc-tomorrow color-theme-modern color-theme cmake-mode clang-format atom-one-dark-theme))))
-
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )
