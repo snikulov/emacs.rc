@@ -18,3 +18,7 @@
 (global-set-key [f5] 'goto-line)
 ;;(global-set-key [C-M-tab] 'clang-format-region)
 (global-set-key [f8] 'neotree-toggle)
+
+(require 'popup-switcher)
+(setq psw-in-window-center t)
+(global-set-key [f2] 'psw-switch-buffer)

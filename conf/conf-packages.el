@@ -21,10 +21,15 @@
 
 (use-package yasnippet)
 
-;;(use-package color-theme)
 (use-package atom-one-dark-theme)
 
 (use-package cpputils-cmake)
 (use-package ggtags)
 (use-package neotree)
+(use-package hydra)
+(use-package ivy)
 
+(use-package gnus)
+(use-package projectile)
+(use-package term-projectile)
+(use-package popup-switcher)
