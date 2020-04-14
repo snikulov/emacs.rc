@@ -1,13 +1,13 @@
 ;; gtags on Fedora
-(setq load-path (cons "/usr/share/gtags" load-path))
-(setq load-path (cons "/usr/local/share/gtags" load-path))
-(setq load-path (cons "/usr/share/emacs/site-lisp" load-path))
-(autoload 'gtags-mode "gtags" "" t)
+;;(setq load-path (cons "/usr/share/gtags" load-path))
+;;(setq load-path (cons "/usr/local/share/gtags" load-path))
+;;(setq load-path (cons "/usr/share/emacs/site-lisp" load-path))
+;;(autoload 'gtags-mode "gtags" "" t)
 
-(setq c-mode-hook '(lambda () (gtags-mode 1)))
-(setq c++-mode-hook '(lambda () (gtags-mode 1)))
-(setq c-mode-hook '(lambda () (global-linum-mode 1)))
-(setq c++-mode-hook '(lambda () (global-linum-mode 1)))
+(setq c-mode-hook '(lambda () (ggtags-mode 1)))
+(setq c++-mode-hook '(lambda () (ggtags-mode 1)))
+;;(setq c-mode-hook '(lambda () (gglobal-linum-mode 1)))
+;;(setq c++-mode-hook '(lambda () (gglobal-linum-mode 1)))
 
 (defun gtags-root-dir ()
     "Returns GTAGS root directory or nil if doesn't exist."

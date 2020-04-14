@@ -10,15 +10,18 @@
 ;;		  (interactive)
 ;;		  (find-file "~/.emacs.d/emacs_kb_dv.png")))
 
-(require 'neotree)
 
 ;; set custom keybindings
-(global-set-key [C-M-down] 'text-scale-decrease)
-(global-set-key [C-M-up] 'text-scale-increase)
+(global-set-key [C-M-prior] 'text-scale-decrease)
+(global-set-key [C-M-next] 'text-scale-increase)
 (global-set-key [f5] 'goto-line)
-;;(global-set-key [C-M-tab] 'clang-format-region)
-(global-set-key [f8] 'neotree-toggle)
 
 (require 'popup-switcher)
 (setq psw-in-window-center t)
 (global-set-key [f2] 'psw-switch-buffer)
+
+(require 'neotree)
+(global-set-key [f8] 'neotree-toggle)
+
+(require 'clang-format)
+(global-set-key [C-M-tab] 'clang-format-region)

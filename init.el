@@ -59,27 +59,30 @@
 (load-theme 'atom-one-dark t)
 
 (when (equal platform 'linux)
-  (set-face-attribute 'default nil :family "Fira Code" :height 182)
-;;  (require 'cpputils-cmake)
-;; (require 'ggtags)
-;;  (add-hook 'c-mode-common-hook
-;;         (lambda ()
-;;            (when (derived-mode-p 'c-mode 'c++-mode 'java-mode)
-;;              (ggtags-mode 1)
-;;              (cppcm-reload-all))))
+  (set-face-attribute 'default nil :family "Fira Code" :height 142)
+  (require 'cpputils-cmake)
+  (require 'ggtags)
+  (add-hook 'c-mode-common-hook
+         (lambda ()
+            (when (derived-mode-p 'c-mode 'c++-mode)
+              (ggtags-mode 1)
+              (cppcm-reload-all))))
 )
 (when (equal platform 'windows)
   (set-face-attribute 'default nil :family "Consolas" :height 143)
 )
 
 (load "~/.emacs.d/conf/conf-keyboard.el")
-;;(load "~/.emacs.d/conf/emacs-rc-common-hooks.el")
-;;(load "~/.emacs.d/conf/emacs-rc-auto-insert.el")
-;;(load "~/.emacs.d/conf/emacs-rc-ccmode.el")
-;;(load "~/.emacs.d/conf/conf-gtags.el")
+(load "~/.emacs.d/conf/conf-gtags.el")
 
 ;; nuke trailing whitespaces
 (add-hook 'before-save-hook 'delete-trailing-whitespace)
+
+;; company
+(add-hook 'after-init-hook 'global-company-mode)
+(setq company-idle-delay 0)
+(setq company-minimum-prefix-length 1)
+(company-tng-configure-default)
 
 ;; additional ws options
 (setq-default show-trailing-whitespace t)
