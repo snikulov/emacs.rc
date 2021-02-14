@@ -36,7 +36,7 @@
 (add-to-list 'default-frame-alist '(fullscreen . maximized))
 
 ;; common lisp enable for cedet
-(require 'cl)
+;;(require 'cl)
 
 ;; set lang to utf-8
 (setenv "LANG" "en_US.UTF-8" )
@@ -56,21 +56,24 @@
 (setq yas/snippet-dirs '"~/.emacs.d/snippets")
 (show-paren-mode 1)
 
-(load-theme 'atom-one-dark t)
+(load-theme 'gruber-darker t)
 
 (when (equal platform 'linux)
-  (set-face-attribute 'default nil :family "Fira Code" :height 142)
   (require 'cpputils-cmake)
   (require 'ggtags)
   (add-hook 'c-mode-common-hook
-         (lambda ()
-            (when (derived-mode-p 'c-mode 'c++-mode)
-              (ggtags-mode 1)
-              (cppcm-reload-all))))
+          (lambda ()
+             (when (derived-mode-p 'c-mode 'c++-mode)
+               (ggtags-mode 1)
+               (cppcm-reload-all))))
 )
-(when (equal platform 'windows)
-  (set-face-attribute 'default nil :family "Consolas" :height 143)
-)
+;;; Appearance
+(defun rc/get-default-font ()
+  (cond
+   ((eq system-type 'windows-nt) "Consolas-13")
+   ((eq system-type 'gnu/linux) "Ubuntu Mono-20")))
+
+(add-to-list 'default-frame-alist `(font . ,(rc/get-default-font)))
 
 (load "~/.emacs.d/conf/conf-keyboard.el")
 (load "~/.emacs.d/conf/conf-gtags.el")
@@ -89,6 +92,44 @@
 (setq-default indicate-empty-lines t)
 (setq-default indent-tabs-mode nil)
 
+(ido-mode t)
+(setq ido-everywhere            t
+      ido-enable-prefix         nil
+      ido-enable-flex-matching  t
+      ido-auto-merge-work-directories-length nil
+      ;;ido-use-filename-at-point t
+      ido-max-prospects         10
+      ido-create-new-buffer     'always
+      ;; ido-use-virtual-buffers   t
+      ;; ido-handle-duplicate-virtual-buffers 2
+      ido-default-buffer-method 'selected-window
+      ido-default-file-method   'selected-window)
+(defun ido-my-keys ()
+  (define-key ido-completion-map (kbd "<up>")   'ido-prev-match)
+  (define-key ido-completion-map (kbd "<down>") 'ido-next-match))
+
+(setq ido-file-extensions-order     '(".cc" ".h" ".tex" ".sh" ".org"
+                                      ".el" ".tex" ".png"))
+(setq completion-ignored-extensions '(".o" ".elc" "~" ".bin" ".bak"
+                                      ".obj" ".map" ".a" ".so"
+                                      ".mod" ".aux" ".out" ".pyg"))
+(setq ido-ignore-extensions t)
+(setq ido-ignore-buffers (list (rx (or (and bos  " ")
+                                       (and bos
+                                            (or "*Completions*"
+                                                "*Shell Command Output*"
+                                                "*vc-diff*")
+                                            eos)))))
+
+(add-hook 'ido-setup-hook 'ido-my-keys)
+;; flx ido mode
+(require 'flx-ido)
+(flx-ido-mode 1)
+
+;; disable ido faces to see flx highlights.
+(setq ido-enable-flex-matching t)
+(setq ido-use-faces nil)
+
 ;; default coding style
 (setq c-default-style "bsd"
       c-basic-offset 4
@@ -101,14 +142,17 @@
 (global-linum-mode 1)
 (global-hl-line-mode 1)
 
+(setq whitespace-style '(trailing tabs newline tab-mark newline-mark))
+
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(custom-safe-themes
+   '("37768a79b479684b0756dec7c0fc7652082910c37d8863c35b702db3f16000f8" default))
  '(package-selected-packages
-   (quote
-    (yasnippet use-package neotree magit ggtags cpputils-cmake company atom-one-dark-theme))))
+   '(## yasnippet use-package neotree magit ggtags cpputils-cmake company atom-one-dark-theme)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.

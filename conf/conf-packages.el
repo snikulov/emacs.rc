@@ -3,7 +3,7 @@
 (package-initialize)
 
 (add-to-list 'package-archives
-               '("melpa" . "http://melpa.org/packages/"))
+               '("melpa" . "https://melpa.org/packages/"))
 (unless package-archive-contents
   (package-refresh-contents))
 
@@ -23,6 +23,8 @@
 (use-package auto-complete)
 
 (use-package atom-one-dark-theme)
+(use-package gruber-darker-theme)
+(use-package nord-theme)
 
 (use-package cpputils-cmake)
 (use-package cmake-mode)
@@ -33,7 +35,7 @@
 (use-package neotree)
 (use-package hydra)
 (use-package ivy)
-
+(use-package flx-ido)
 (use-package gnus)
 (use-package projectile)
 (use-package term-projectile)
