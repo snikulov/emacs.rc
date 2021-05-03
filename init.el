@@ -14,17 +14,20 @@
 ;; install use-package
 (unless (package-installed-p 'use-package)
   (package-refresh-contents)
-  (package-install 'use-package))
-(require 'use-package)
-(setq use-package-always-ensure t)
-
-(use-package delight)
-(use-package use-package-ensure-system-package)
+  (package-install 'use-package)
+  (eval-when-compile (require 'use-package)))
 
 (setq auth-sources '("~/.config/gnupg/shared/authinfo.gpg"
                      "~/.authinfo.gpg"
                      "~/.authinfo"
                      "~/.netrc"))
+(setq backup-directory-alist '(("." . "~/.emacs.d/backup"))
+  backup-by-copying t    ; Don't delink hardlinks
+  version-control t      ; Use version numbers on backups
+  delete-old-versions t  ; Automatically delete excess backups
+  kept-new-versions 20   ; how many of the newest versions to keep
+  kept-old-versions 5    ; and how many of the old
+)
 
 (setq-default
  ad-redefinition-action 'accept                   ; Silence warnings for redefinition
@@ -43,19 +46,21 @@
  select-enable-clipboard t                        ; Merge system's and Emacs' clipboard
  tab-width 8                                      ; Set width for tabs
  use-package-always-ensure t                      ; Avoid the :ensure keyword for each package
- user-full-name "Sergey Nikulov"                  ; Set the full name of the current user
- user-mail-address "snikulov@topcon.com"  ; Set the email address of the current user
  vc-follow-symlinks t                             ; Always follow the symlinks
- view-read-only t)                                ; Always open read-only buffers in view-mode
+ view-read-only t                                 ; Always open read-only buffers in view-mode
+ require-final-newline t)                         ; add final newline (maybe not good in some cases)
+
 (cd "~/")                                         ; Move to the user directory
 (column-number-mode 1)                            ; Show the column number
 (display-time-mode 1)                             ; Enable time in the mode-line
 (fset 'yes-or-no-p 'y-or-n-p)                     ; Replace yes/no prompts with y/n
-(global-hl-line-mode 1)                             ; Hightlight current line
+(global-hl-line-mode 1)                           ; Hightlight current line
 (set-default-coding-systems 'utf-8)               ; Default to utf-8 encoding
 (show-paren-mode 1)                               ; Show the parent
 (global-linum-mode 1)
-
+(menu-bar-mode -1)              ; Disable the menu bar
+(tool-bar-mode -1)              ; Disable the tool bar
+(tooltip-mode -1)               ; Disable the tooltips
 
 ;; default coding style
 (setq c-default-style "bsd"
@@ -67,7 +72,11 @@
 (setq whitespace-style '(trailing tabs newline tab-mark newline-mark))
 (setq-default show-trailing-whitespace t)
 (setq-default indicate-empty-lines t)
-(setq-default indent-tabs-mode nil)
+
+;; Packages stuff
+
+(use-package delight)
+(use-package use-package-ensure-system-package)
 
 ;; delete trailing whitespace on save
 (use-package simple
@@ -79,9 +88,6 @@
 (use-package neotree
   :custom (neo-show-hidden-files t)
   :bind ("<f8>" . neotree-toggle))
-;; buffer swithcher
-(use-package popup-switcher
-  :bind ("<f2>" . psw-switch-buffer))
 
 ;;
 ;; Themes
@@ -94,6 +100,10 @@
 (use-package command-log-mode
   :commands command-log-mode)
 
+(use-package undo-tree
+    :defer 5
+    :config
+    (global-undo-tree-mode 1))
 
 (when (display-graphic-p)
   (set-face-attribute 'default nil :font "Source Code Pro Medium-16")
@@ -117,10 +127,6 @@
   :config
   (solaire-mode-swap-bg)
   (solaire-global-mode +1))
-
-(menu-bar-mode -1)              ; Disable the menu bar
-(tool-bar-mode -1)              ; Disable the tool bar
-(tooltip-mode -1)               ; Disable the tooltips
 
 (use-package ggtags
   :hook (prog-mode . ggtags-mode))
@@ -146,17 +152,6 @@
   :config
   (dap-mode t)
   (dap-ui-mode t))
-
-; (use-package ccls
-;   :after projectile
-;   :ensure-system-package ccls
-;   :custom
-;   (ccls-args nil)
-;   (ccls-executable (executable-find "ccls"))
-;   (projectile-project-root-files-top-down-recurring
-;    (append '("compile_commands.json" ".ccls")
-;            projectile-project-root-files-top-down-recurring))
-;   :config (add-to-list 'projectile-globally-ignored-directories ".ccls-cache"))
 
 (use-package projectile
   :diminish projectile-mode
@@ -208,12 +203,9 @@
 
 (use-package yasnippet
   :delight yas-minor-mode " υ"
-  :hook (yas-minor-mode . my/disable-yas-if-no-snippets)
-  :config (yas-global-mode)
-  :preface
-  (defun my/disable-yas-if-no-snippets ()
-    (when (and yas-minor-mode (null (yas--get-snippet-tables)))
-      (yas-minor-mode -1))))
+  :config
+    (yas-global-mode)
+    (add-to-list 'yas-snippet-dirs "~/.emacs.d/snippets"))
 
 (use-package rainbow-mode
   :delight
@@ -289,12 +281,31 @@
   :delight
   :hook (company-mode . company-box-mode))
 
+;; override my default settings with editorconfig for project (if any)
+(use-package editorconfig
+  :config
+  (editorconfig-mode 1))
+
 ;; TODO: configure
 (use-package clang-format)
-(use-package hydra)
+(use-package hydra
+  :bind (("C-c m" . hydra-magit/body)))
+(use-package pretty-hydra)
+(use-package all-the-icons)
+
 (use-package sourcetrail)
 (use-package magit)
 (use-package flycheck)
+
+(pretty-hydra-define hydra-magit
+  (:hint nil :color teal :quit-key "q" :title "Magit")
+  ("Action"
+   (("b" magit-blame "blame")
+    ("c" magit-clone "clone")
+    ("i" magit-init "init")
+    ("l" magit-log-buffer-file "commit log (current file)")
+    ("L" magit-log-current "commit log (project)")
+    ("s" magit-status "status"))))
 
 
 ;; Make gc pauses faster by decreasing the threshold.
