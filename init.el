@@ -74,6 +74,8 @@
 (setq-default indicate-empty-lines t)
 
 ;; Packages stuff
+(use-package dtrt-indent
+  :hook (prog-mode . dtrt-indent-mode))
 
 (use-package delight)
 (use-package use-package-ensure-system-package)
@@ -168,6 +170,9 @@
 
 (use-package counsel-projectile
   :config (counsel-projectile-mode))
+
+(use-package dts-mode
+  :mode ("\\.dts\\'" "\\.dtsi\\'"))
 
 (use-package cmake-mode
   :mode ("CMakeLists\\.txt\\'" "\\.cmake\\'"))
