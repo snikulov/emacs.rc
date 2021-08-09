@@ -127,7 +127,7 @@
 (use-package solaire-mode
   :custom (solaire-mode-remap-fringe t)
   :config
-  (solaire-mode-swap-bg)
+  (setq solaire-mode-swap-bg t)
   (solaire-global-mode +1))
 
 (use-package ggtags
