@@ -58,6 +58,8 @@
 (set-default-coding-systems 'utf-8)               ; Default to utf-8 encoding
 (show-paren-mode 1)                               ; Show the parent
 (global-linum-mode 1)
+(setq linum-format "%4d \u2502 ")
+
 (menu-bar-mode -1)              ; Disable the menu bar
 (tool-bar-mode -1)              ; Disable the tool bar
 (tooltip-mode -1)               ; Disable the tooltips
@@ -298,9 +300,14 @@
 (use-package pretty-hydra)
 (use-package all-the-icons)
 
-(use-package sourcetrail)
+;;(use-package sourcetrail)
 (use-package magit)
 (use-package flycheck)
+(use-package elpy
+  :ensure t
+  :defer t
+  :init
+  (advice-add 'python-mode :before 'elpy-enable))
 
 (pretty-hydra-define hydra-magit
   (:hint nil :color teal :quit-key "q" :title "Magit")
@@ -322,12 +329,15 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(column-number-mode t)
  '(custom-safe-themes
    '("be9645aaa8c11f76a10bcf36aaf83f54f4587ced1b9b679b55639c87404e2499" "e6ff132edb1bfa0645e2ba032c44ce94a3bd3c15e3929cdf6c049802cf059a2a" "5f824cddac6d892099a91c3f612fcf1b09bb6c322923d779216ab2094375c5ee" default))
- '(package-selected-packages '(dracula-theme use-package)))
+ '(display-time-mode t)
+ '(package-selected-packages '(dracula-theme use-package))
+ '(tool-bar-mode nil))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- )
+ '(default ((t (:family "Source Code Pro" :foundry "ADBO" :slant normal :weight normal :height 158 :width normal)))))
