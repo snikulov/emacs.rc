@@ -57,7 +57,7 @@
 (global-hl-line-mode 1)                           ; Hightlight current line
 (set-default-coding-systems 'utf-8)               ; Default to utf-8 encoding
 (show-paren-mode 1)                               ; Show the parent
-(global-linum-mode 1)
+(global-display-line-numbers-mode 1)
 (setq linum-format "%4d \u2502 ")
 
 (menu-bar-mode -1)              ; Disable the menu bar
