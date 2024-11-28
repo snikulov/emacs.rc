@@ -263,7 +263,9 @@
 (use-package all-the-icons)
 
 ;;(use-package sourcetrail)
-(use-package magit)
+(use-package magit
+  :commands magit-status)
+
 (use-package flycheck)
 (use-package elpy
   :ensure t
