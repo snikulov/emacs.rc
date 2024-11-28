@@ -283,6 +283,14 @@
     ("L" magit-log-current "commit log (project)")
     ("s" magit-status "status"))))
 
+;; increase/decrease text
+(use-package emacs
+  :bind
+  ("C-+" . text-scale-increase)
+  ("C--" . text-scale-decrease)
+  ("<C-wheel-up>" . text-scale-increase)
+  ("<C-wheel-down>" . text-scale-decrease))
+
 
 ;; Make gc pauses faster by decreasing the threshold.
 (setq gc-cons-threshold (* 10 1000 1000))
