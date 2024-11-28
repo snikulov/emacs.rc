@@ -6,11 +6,11 @@
 
 (require 'package)
 (package-initialize)
+(setq package-archives '(("melpa" . "https://melpa.org/packages/") ;; Sets default package repositories
+                         ("org" . "https://orgmode.org/elpa/")
+                         ("elpa" . "https://elpa.gnu.org/packages/")
+                         ("nongnu" . "https://elpa.nongnu.org/nongnu/")))
 
-;; configure package archives
-(setq package-archives '(("gnu" . "https://elpa.gnu.org/packages/")
-                         ("melpa" . "https://melpa.org/packages/")
-                         ("org" . "https://orgmode.org/elpa/")))
 ;; install use-package
 (unless (package-installed-p 'use-package)
   (package-refresh-contents)
@@ -21,6 +21,7 @@
                      "~/.authinfo.gpg"
                      "~/.authinfo"
                      "~/.netrc"))
+
 (setq backup-directory-alist '(("." . "~/.emacs.d/backup"))
   backup-by-copying t    ; Don't delink hardlinks
   version-control t      ; Use version numbers on backups
@@ -80,7 +81,6 @@
   :hook (prog-mode . dtrt-indent-mode))
 
 (use-package delight)
-(use-package use-package-ensure-system-package)
 
 ;; delete trailing whitespace on save
 (use-package simple
@@ -135,24 +135,7 @@
 (use-package ggtags
   :hook (prog-mode . ggtags-mode))
 
-(use-package lsp-mode
-  :commands lsp
-  :hook ((c-mode c++-mode json-mode python-mode xml-mode) . lsp)
-  :after projectile
-  :custom
-  (lsp-enable-folding nil)
-  (lsp-enable-links nil)
-  (lsp-enable-snippet nil)
-  (lsp-prefer-flymake nil)
-  (lsp-restart 'auto-restart)
-  :config
-  (setq lsp-clients-clangd-args '("-j=4" "-background-index" "-log=error"))
-  )
-
-(use-package lsp-ui)
-
 (use-package dap-mode
-  :after lsp-mode
   :config
   (dap-mode t)
   (dap-ui-mode t))
@@ -182,27 +165,6 @@
 (use-package cmake-font-lock
   :after (cmake-mode)
   :hook (cmake-mode . cmake-font-lock-activate))
-
-(use-package cmake-ide
-  :after projectile
-  :hook ((c-mode c++-mode) . my/cmake-ide-find-project)
-  :preface
-  (defun my/cmake-ide-find-project ()
-    "Finds the directory of the project for cmake-ide."
-    (with-eval-after-load 'projectile
-      (setq cmake-ide-project-dir (projectile-project-root))
-      (setq cmake-ide-build-dir (concat cmake-ide-project-dir "build")))
-    (setq cmake-ide-compile-command
-          (concat "cmake -S" cmake-ide-project-dir " -B" cmake-ide-build-dir " -DCMAKE_EXPORT_COMPILE_COMMANDS=ON && cmake --build " cmake-ide-build-dir))
-    (cmake-ide-load-db))
-
-  (defun my/switch-to-compilation-window ()
-    "Switches to the *compilation* buffer after compilation."
-    (other-window 1))
-  :bind ([remap comment-region] . cmake-ide-compile)
-  :init (cmake-ide-setup)
-  :config (advice-add 'cmake-ide-compile :after #'my/switch-to-compilation-window))
-
 
 (use-package yasnippet-snippets
   :after yasnippet
