@@ -45,8 +45,35 @@
   :config
   (load-theme 'monokai t))
 
+;; C/C++ config
+(use-package cc-mode
+  :ensure t
+  :mode ("\\.cpp\\'" . c++-mode)
+  :config
+  (setq c-basic-offset 4
+        c-default-style "bsd"))
+
+;; Install and configure eglot with clangd
+(use-package eglot
+  :ensure t
+  :hook ((c-mode c++-mode) . eglot-ensure)
+  :config
+  (add-to-list 'eglot-server-programs '((c-mode c++-mode) . ("clangd"))))
+
+;; Install and configure projectile
+(use-package projectile
+  :ensure t
+  :init
+  (projectile-mode +1)
+  :bind (:map projectile-mode-map
+              ("C-c p" . projectile-command-map)))
+  
+;; Install and configure magit
 (use-package magit
-  :commands magit-status)
+  :ensure t
+  :commands magit-status
+  :bind ("C-x g" . magit-status))
+
 
 ;; Update all packages on Emacs startup
 (add-hook 'emacs-startup-hook 'package-upgrade-all)
