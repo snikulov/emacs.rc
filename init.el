@@ -110,7 +110,7 @@
     (global-undo-tree-mode 1))
 
 (when (display-graphic-p)
-  (set-face-attribute 'default nil :font "Source Code Pro Medium-16")
+  (set-face-attribute 'default nil :font "Source Code Pro Medium" :height 160)
   (set-fontset-font t 'latin "Noto Sans")
   (scroll-bar-mode -1)            ; Disable the scroll bar
   (use-package doom-themes
@@ -290,6 +290,9 @@
   ("C--" . text-scale-decrease)
   ("<C-wheel-up>" . text-scale-increase)
   ("<C-wheel-down>" . text-scale-decrease))
+
+(use-package nov
+  :mode ("\\.epub\\'" . nov-mode))
 
 
 ;; Make gc pauses faster by decreasing the threshold.
