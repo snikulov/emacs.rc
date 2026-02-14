@@ -291,28 +291,16 @@
   ("<C-wheel-up>" . text-scale-increase)
   ("<C-wheel-down>" . text-scale-decrease))
 
+;; epub reader
 (use-package nov
   :mode ("\\.epub\\'" . nov-mode))
 
+;; another gtags
+(use-package agtags
+  :ensure t)
+(when (executable-find "global")
+  (agtags-bind-keys)
+  (setq agtags-global-treat-text t)
+  (add-hook 'text-mode-hook 'agtags-mode)
+  (add-hook 'prog-mode-hook 'agtags-mode))
 
-;; Make gc pauses faster by decreasing the threshold.
-(setq gc-cons-threshold (* 10 1000 1000))
-
-;;; init.el ends here
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(column-number-mode t)
- '(custom-safe-themes
-   '("be9645aaa8c11f76a10bcf36aaf83f54f4587ced1b9b679b55639c87404e2499" "e6ff132edb1bfa0645e2ba032c44ce94a3bd3c15e3929cdf6c049802cf059a2a" "5f824cddac6d892099a91c3f612fcf1b09bb6c322923d779216ab2094375c5ee" default))
- '(display-time-mode t)
- '(package-selected-packages '(dracula-theme use-package))
- '(tool-bar-mode nil))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(default ((t (:family "Source Code Pro" :foundry "ADBO" :slant normal :weight normal :height 158 :width normal)))))
