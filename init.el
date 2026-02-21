@@ -104,10 +104,14 @@
 (use-package command-log-mode
   :commands command-log-mode)
 
+(make-directory "~/.emacs.d/undo-history/" t)
 (use-package undo-tree
     :defer 5
     :config
-    (global-undo-tree-mode 1))
+    (global-undo-tree-mode 1)
+    (setq undo-tree-history-directory-alist
+          '((".*" . "~/.emacs.d/undo-history/")))
+    )
 
 (when (display-graphic-p)
   (set-face-attribute 'default nil :font "Source Code Pro Medium" :height 160)
@@ -304,3 +308,15 @@
   (add-hook 'text-mode-hook 'agtags-mode)
   (add-hook 'prog-mode-hook 'agtags-mode))
 
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(package-selected-packages nil))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )
