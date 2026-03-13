@@ -77,8 +77,9 @@
 (setq-default indicate-empty-lines t)
 
 ;; Packages stuff
-(use-package dtrt-indent
-  :hook (prog-mode . dtrt-indent-mode))
+;; - autodetect formatting settings
+;;(use-package dtrt-indent
+;;  :hook (prog-mode . dtrt-indent-mode))
 
 (use-package delight)
 
@@ -92,6 +93,13 @@
 (use-package neotree
   :custom (neo-show-hidden-files t)
   :bind ("<f8>" . neotree-toggle))
+
+;; Spell check. Requires 'aspell' under-the-hood
+(use-package flyspell
+  :ensure nil ;;Inbuilt package
+  :hook (text-mode . flyspell-mode)
+  :config
+  (flyspell-mode 1))
 
 ;;
 ;; Themes
@@ -136,8 +144,8 @@
   (setq solaire-mode-swap-bg t)
   (solaire-global-mode +1))
 
-(use-package ggtags
-  :hook (prog-mode . ggtags-mode))
+;;(use-package ggtags
+;;  :hook (prog-mode . ggtags-mode))
 
 (use-package dap-mode
   :config
@@ -175,10 +183,17 @@
   :config (yasnippet-snippets-initialize))
 
 (use-package yasnippet
+  :ensure t
   :delight yas-minor-mode " υ"
+  :hook ((text-mode
+          prog-mode
+          conf-mode
+          snippet-mode) . yas-minor-mode-on)
   :config
     (yas-global-mode)
-    (add-to-list 'yas-snippet-dirs "~/.emacs.d/snippets"))
+    (add-to-list 'yas-snippet-dirs "~/.emacs.d/snippets")
+  :init
+    (setq yas-snippet-dir "~/.emacs.d/snippets"))
 
 (use-package rainbow-mode
   :delight
@@ -256,11 +271,34 @@
 
 ;; override my default settings with editorconfig for project (if any)
 (use-package editorconfig
+  :ensure t
   :config
   (editorconfig-mode 1))
 
 ;; TODO: configure
-(use-package clang-format)
+(use-package clang-format
+  :ensure t
+  :bind ("C-M-TAB" . clang-format-region))
+
+(use-package clang-format+
+  :ensure t
+  :init
+  ;; Enable the minor mode for supported languages
+  (add-hook 'c-mode-hook 'clang-format+-mode)
+  (add-hook 'c++-mode-hook 'clang-format+-mode)
+)
+
+;; Regexp magic. Auto mode for *.c and *.h files
+(use-package c-ts-mode
+  :ensure nil ;;inbuilt package
+  :mode("\\.[ch]\\'" . c-ts-mode))
+
+;; Regexp magic. Auto mode for *.cpp and *.hpp2 files
+(use-package c++-ts-mode
+  :ensure nil ;;inbuilt package
+  :mode("\\.[ch]pp\\'" . c++-ts-mode))
+
+
 (use-package hydra
   :bind (("C-c m" . hydra-magit/body)))
 (use-package pretty-hydra)
@@ -270,7 +308,11 @@
 (use-package magit
   :commands magit-status)
 
-(use-package flycheck)
+;; On the fly syntax and linting check for all text mode. Faster than flymake + Better functionality
+(use-package flycheck
+  :ensure t
+  :hook (prog-mode . flycheck-mode))
+
 (use-package elpy
   :ensure t
   :defer t
@@ -295,6 +337,24 @@
   ("<C-wheel-up>" . text-scale-increase)
   ("<C-wheel-down>" . text-scale-decrease))
 
+
+(use-package lsp-mode
+  :init
+  ;; set prefix for lsp-command-keymap (few alternatives - "C-l", "C-c l")
+  (setq lsp-keymap-prefix "C-c l")
+  :hook (;; replace XXX-mode with concrete major-mode(e. g. python-mode)
+;;         (prog-mode . lsp)
+         ;; if you want which-key integration
+         (lsp-mode . lsp-enable-which-key-integration))
+  :commands lsp)
+
+;; optionally
+(use-package lsp-ui :commands lsp-ui-mode)
+;; if you are ivy user
+(use-package lsp-ivy :commands lsp-ivy-workspace-symbol)
+(use-package lsp-treemacs :commands lsp-treemacs-errors-list)
+
+
 ;; epub reader
 (use-package nov
   :mode ("\\.epub\\'" . nov-mode))
@@ -308,15 +368,3 @@
   (add-hook 'text-mode-hook 'agtags-mode)
   (add-hook 'prog-mode-hook 'agtags-mode))
 
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(package-selected-packages nil))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )
