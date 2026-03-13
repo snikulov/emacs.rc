@@ -126,7 +126,7 @@
 ;; Theme
 (use-package doom-themes
   :config (load-theme 'doom-nord t)
-  :custom-face (default ((nil (:font "Source Code Pro Medium" :height 170)))))
+  :custom-face (default ((nil (:font "Fira Code" :height 170)))))
 
 (use-package doom-modeline
   :defer 0.1
