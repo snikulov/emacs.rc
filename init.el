@@ -123,25 +123,17 @@
           '((".*" . "~/.emacs.d/undo-history/")))
     )
 
-(when (display-graphic-p)
-  (set-face-attribute 'default nil :font "Source Code Pro Medium" :height 160)
-  (set-fontset-font t 'latin "Noto Sans")
-  (scroll-bar-mode -1)            ; Disable the scroll bar
-  (use-package doom-themes
-    :config (load-theme 'doom-nord t)
-    :custom-face (default ((nil (:font "Source Code Pro Medium" :height 170))))
-    )
-  (use-package doom-modeline
-    :defer 0.1
-    :config (doom-modeline-mode))
-  (use-package fancy-battery
-    :after doom-modeline
-    :hook (after-init . fancy-battery-mode))
-)
+;; Theme
+(use-package doom-themes
+  :config (load-theme 'doom-nord t)
+  :custom-face (default ((nil (:font "Source Code Pro Medium" :height 170)))))
 
-(unless (display-graphic-p)
-  (use-package monokai-theme
-    :config (load-theme 'monokai t)))
+(use-package doom-modeline
+  :defer 0.1
+  :config (doom-modeline-mode))
+(use-package fancy-battery
+  :after doom-modeline
+  :hook (after-init . fancy-battery-mode))
 
 (use-package solaire-mode
   :custom (solaire-mode-remap-fringe t)
