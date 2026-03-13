@@ -72,6 +72,8 @@
 (setq c++-default-style "bsd"
       c++-basic-offset 4
       indent-tabs-mode nil)
+
+
 (setq whitespace-style '(trailing tabs newline tab-mark newline-mark))
 (setq-default show-trailing-whitespace t)
 (setq-default indicate-empty-lines t)
@@ -126,7 +128,9 @@
   (set-fontset-font t 'latin "Noto Sans")
   (scroll-bar-mode -1)            ; Disable the scroll bar
   (use-package doom-themes
-    :config (load-theme 'doom-nord t))
+    :config (load-theme 'doom-nord t)
+    :custom-face (default ((nil (:font "Source Code Pro Medium" :height 170))))
+    )
   (use-package doom-modeline
     :defer 0.1
     :config (doom-modeline-mode))
@@ -134,6 +138,7 @@
     :after doom-modeline
     :hook (after-init . fancy-battery-mode))
 )
+
 (unless (display-graphic-p)
   (use-package monokai-theme
     :config (load-theme 'monokai t)))
@@ -141,7 +146,7 @@
 (use-package solaire-mode
   :custom (solaire-mode-remap-fringe t)
   :config
-  (setq solaire-mode-swap-bg t)
+;;  (setq solaire-mode-swap-bg t)
   (solaire-global-mode +1))
 
 ;;(use-package ggtags
@@ -288,17 +293,6 @@
   (add-hook 'c++-mode-hook 'clang-format+-mode)
 )
 
-;; Regexp magic. Auto mode for *.c and *.h files
-(use-package c-ts-mode
-  :ensure nil ;;inbuilt package
-  :mode("\\.[ch]\\'" . c-ts-mode))
-
-;; Regexp magic. Auto mode for *.cpp and *.hpp2 files
-(use-package c++-ts-mode
-  :ensure nil ;;inbuilt package
-  :mode("\\.[ch]pp\\'" . c++-ts-mode))
-
-
 (use-package hydra
   :bind (("C-c m" . hydra-magit/body)))
 (use-package pretty-hydra)
@@ -337,23 +331,60 @@
   ("<C-wheel-up>" . text-scale-increase)
   ("<C-wheel-down>" . text-scale-decrease))
 
+;; switch windows
+(use-package switch-window
+  :ensure t
+  :custom
+  ((switch-window-input-style 'minibuffer)
+   (switch-window-increase 4)
+   (switch-window-threshold 2)
+   (switch-window-shortcut-style 'qwerty)
+   (switch-window-qwerty-shortcuts
+    '("a" "s" "d" "f" "j" "k" "l")))
+  :bind
+  ([remap other-window] . switch-window))
+
 
 (use-package lsp-mode
-  :init
-  ;; set prefix for lsp-command-keymap (few alternatives - "C-l", "C-c l")
-  (setq lsp-keymap-prefix "C-c l")
-  :hook (;; replace XXX-mode with concrete major-mode(e. g. python-mode)
-;;         (prog-mode . lsp)
-         ;; if you want which-key integration
-         (lsp-mode . lsp-enable-which-key-integration))
-  :commands lsp)
-
+  :ensure t
+  :hook
+  (c-ts-mode . lsp)
+  (c++-ts-mode . lsp)
+  (lsp-mode . lsp-enable-which-key-integration)
+  :custom
+  ((eldoc-echo-area-use-multiline-p nil)
+   (lsp-enable-indentation nil)
+   (lsp-enable-on-type-formatting nil)
+   (lsp-modeline-code-actions-enable nil)
+   (lsp-modeline-diagnostics-enable nil)
+   (lsp-diagnostics-provider :none)
+   (lsp-ui-sidline-enable nil)
+   (lsp-clients-clangd-args '("--header-insertion=never"))))
 ;; optionally
-(use-package lsp-ui :commands lsp-ui-mode)
-;; if you are ivy user
-(use-package lsp-ivy :commands lsp-ivy-workspace-symbol)
-(use-package lsp-treemacs :commands lsp-treemacs-errors-list)
+(use-package lsp-ui
+  :ensure t)
 
+;; if you are ivy user
+;;(use-package lsp-ivy :commands lsp-ivy-workspace-symbol)
+;;(use-package lsp-treemacs :commands lsp-treemacs-errors-list)
+
+(use-package dap-mode
+  :ensure t
+  :bind
+  (("C-c d r" . dap-debug)
+   ("C-c d b" . dap-breakpoint-toggle)
+   ("C-c d h" . dap-hydra)))
+;; M-x dap-cpptools-setup
+(require 'dap-cpptools)
+
+
+(use-package treesit-auto
+  :custom
+  (treesit-auto-install 'prompt)
+  :config
+  (treesit-auto-add-to-auto-mode-alist 'all)
+  (global-treesit-auto-mode))
+(electric-pair-mode 1)
 
 ;; epub reader
 (use-package nov
@@ -368,3 +399,4 @@
   (add-hook 'text-mode-hook 'agtags-mode)
   (add-hook 'prog-mode-hook 'agtags-mode))
 
+(add-hook 'prog-mode-hook #'hs-minor-mode)
